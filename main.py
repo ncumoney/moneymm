@@ -1,7 +1,7 @@
 
 from flask import Flask, request
 from linebot import LineBotApi, WebhookHandler
-from linebot.models import TextSendMessage   # 載入 TextSendMessage 模組
+from linebot.models import TextSendMessage   # 載入 TextSendMessage  模組
 import json
 
 app = Flask(__name__)
