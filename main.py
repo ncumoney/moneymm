@@ -29,4 +29,5 @@ def callback():
     return 'OK'
 
 if __name__ == "__main__":
+    callback()
     app.run()
