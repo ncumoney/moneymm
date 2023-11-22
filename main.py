@@ -6,8 +6,12 @@ import json
 
 app = Flask(__name__)
 
-@app.route("/", methods=['POST'])
-def linebot():
+@app.route('/')
+def home():
+    return 'Hello, World!'
+
+@app.route("/webhook", methods=['POST'])
+def callback():
     body = request.get_data(as_text=True)
     json_data = json.loads(body)
     print(json_data)
