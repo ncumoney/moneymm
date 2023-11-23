@@ -35,15 +35,18 @@ def callback():
     app.logger.info("Request body: " + body)
     print(f"callback {body}")
     # handle webhook body
+
     try:
         line_handler.handle(body, signature)
     except InvalidSignatureError:
         abort(400)
+    
     signature = request.headers['X-Line-Signature']
     handler.handle(body, signature)
     
     tk = json_data['events'][0]['replyToken']         # 取得 reply token
     msg = json_data['events'][0]['message']['text']   # 取得使用者發送的訊息
+
     try:
         data = int(msg)
         print("訊息成功轉換為整數:", data)
@@ -91,6 +94,7 @@ def count(spreadsheet_name, category, data): ##data=使用者輸入的金額 cat
     return totocount
 
 if __name__ == "__main__":
+    totalcount =0
     # Configure the logging
     logging.basicConfig(level=logging.INFO)
 
