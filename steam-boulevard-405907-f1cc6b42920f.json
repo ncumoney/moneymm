@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "steam-boulevard-405907",
+  "private_key_id": "f1cc6b42920fbc299dd31ddb565dd01ac6e59dfc",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCj0766dLcfQe8F\nVxqzQJf4cHHxw9RmOQjAeRw0830pv5dzJJl/gI3YWHs9cRhw/wOjyExK1iexEmwW\nbofmWsIPmyCAmHw/+NNcM7wEAYAdBD9uWM0iXTxxWoz3uLRNB+ZX875nZxhKv7GW\nxNjbONsz/qGfybJHU7nK9Z5UG2funeOk8VTW/XW6VUMekCOoNZXGrmTuhp3EV4Xu\nzwAI8mEZnMKNNcrA9yqcElwsjdc85YkN9u2y0WHGyjCOkTox0rPK/6oJefhM5IOE\n5SsutyJ4hzOYpD2zyhPSU4E/fn9RldMHfG7PA0niWbVYD3+d2/+txjC8hTdwat0r\nfWZLMnyHAgMBAAECggEALc2erpzBMhEKFbEjuugdVQ2DHfgFY0sg4kc6FqfY35o8\naqnZ7KbxgYJDeosrLTRvPRRcGDRFxqEC7Uab4lCPnzNc4/c+Ddiwpz+jmm8c9X/h\niCV1vNzacErDzOKsLjk+MmroWhqd1RBBQ4jnpGsCBkhzwavvlzeWY2NGj/dVmIXD\nusfLSRROg2FnydpwXJy8zQaFQQpW5bvehQI89mC26JADoRMka/bRI/V0He3WDEH6\n7Z8LT/h5vFnITg1YjqelxhrH7WDdVxia8WyqO7Q4CtC90a4tLXYcmFylj6dzgRn6\nir2syGrZ6/57I2COXLsEkYgcmqNAlzT2bmEtyJGJgQKBgQDRtujFzUzekd3F0bWs\na8ohJ8qSUfxwC1kFrOv/hnWX+uSsqzDycc+eBrdQ2CqQgWDYuuE9O2nASeed3YUl\nmhRqqh1TvipNIHcFw9cid7uDNmuKy7a8rxawt99OQA8fbxmcYgk2MH0zezICSwTA\nVHxJXqbvWKmkE81BrXXrTfAiwQKBgQDH/Ca8fSuIDypdRh2uAO17jcjIrxJYh8MF\nT02B2W/JwkG3ViAYsD07QiWhTveumGvmlNzsizEBnT/zDi+oSRvYzQwciKKUW85M\nnaujMU+meySM5Lw6ezP66UG/yNWPWiiOmdKgE7U8k0V/sZMkB/tdVK/ttEedOCDY\ny2UZ6zQZRwKBgBsVlFp3eUYFcK7rtpreEOzXRsI+9GtEC+s/ufr2UpmePYpPUbL+\nH+I429QFFvoyu19CQ3S1B6Nd6BvrUBbbH2fnMIJwPOZZGwYTlOVOsVjw3lK+nIsh\n0bxhAuYIP+u/XX9k6eult4W+k2bYaXStdJ/FKaofuUkHharFzETne+wBAoGAOeeo\nz6ruj9bUTW2f6mIaYUwMdw86IKgur7rmllJ/K8wzewJVCND+6cmdW7ehv8wicgFo\ndpVW+0Cs45OX+QIyLfQxLZHigVKTyVtd90Kv7WR6kNEqL0S9KEmh4AYmz/srAx9G\n/VK3h3KdDPw9vpERF1UOG6W3lq5J1HwQKhEQZMECgYAVfI0mfLg5GJkA7hI3b+qO\nY5wDQSJ/BSV3plpdV26LvCR/jnY7CNU/zosxeonlcO+26H2IXCryCU90DMIeyPXL\n7eYomAq9mJ5t0HHlpq6wY5NTKMIe0O4lZ6xrUAZe+9jiqOuHmUqvxserD49zoqQs\ncJUwhA/0YF08OoTrI8DSYw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "suy234771-gmail-com@steam-boulevard-405907.iam.gserviceaccount.com",
+  "client_id": "111384308662365592818",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/suy234771-gmail-com%40steam-boulevard-405907.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
