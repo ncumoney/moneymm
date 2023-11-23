@@ -31,12 +31,9 @@ def callback():
     print(f"callback {body}")
     # handle webhook body
     try:
-<<<<<<< HEAD
-=======
         line_handler.handle(body, signature)
     except InvalidSignatureError:
         abort(400)
->>>>>>> de9151613d2f669f11bd04dabc6188ba5ca25274
         line_bot_api = LineBotApi('IjD9cOGGINHUXelSEl+HdVAc9oEDw3/kk+XMkfWyGZCdFyURygI18eD4rKfcpaKxajwsLmA0iCwnedwrM/qPSCy5BcBNNw+z8xIx/k4ytwxrAABJspIvWUUTWEYZOnYGRUUtw1B9Ez2tyL9qhqWhcwdB04t89/1O/w1cDnyilFU=')
         handler = WebhookHandler('6e4d6c59b5cd885348d5e5cc71a4957b')
         signature = request.headers['X-Line-Signature']
