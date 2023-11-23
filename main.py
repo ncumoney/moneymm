@@ -23,13 +23,10 @@ def callback():
         
         tk = json_data['events'][0]['replyToken']         # 取得 reply token
         msg = json_data['events'][0]['message']['text']   # 取得使用者發送的訊息
-        #將msg（消費金額）存入資料庫中
-        text_message = TextSendMessage(text='請選擇種類')          # 設定回傳同樣的訊息
+        text_message = TextSendMessage(text=msg)          # 設定回傳同樣的訊息
         line_bot_api.reply_message(tk,text_message)       # 回傳訊息
-        #給選擇器按鈕
-        
     except:
-        print('若需要幫忙記帳，請輸入金額喔！')
+        print('error')
     return 'OK'
 
 if __name__ == "__main__":
