@@ -5,8 +5,8 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 import logging
 import os
 
-line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
-line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
+line_bot_api = LineBotApi(os.getenv("IjD9cOGGINHUXelSEl+HdVAc9oEDw3/kk+XMkfWyGZCdFyURygI18eD4rKfcpaKxajwsLmA0iCwnedwrM/qPSCy5BcBNNw+z8xIx/k4ytwxrAABJspIvWUUTWEYZOnYGRUUtw1B9Ez2tyL9qhqWhcwdB04t89/1O/w1cDnyilFU="))
+line_handler = WebhookHandler(os.getenv("6e4d6c59b5cd885348d5e5cc71a4957b"))
 working_status = os.getenv("DEFALUT_TALKING", default = "true").lower() == "true"
 
 logging.basicConfig(level=logging.INFO)
