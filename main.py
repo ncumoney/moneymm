@@ -31,11 +31,9 @@ def callback():
     print(f"callback {body}")
     # handle webhook body
     try:
-<<<<<<< HEAD
         line_handler.handle(body, signature)
     except InvalidSignatureError:
         abort(400)
-=======
         line_bot_api = LineBotApi('IjD9cOGGINHUXelSEl+HdVAc9oEDw3/kk+XMkfWyGZCdFyURygI18eD4rKfcpaKxajwsLmA0iCwnedwrM/qPSCy5BcBNNw+z8xIx/k4ytwxrAABJspIvWUUTWEYZOnYGRUUtw1B9Ez2tyL9qhqWhcwdB04t89/1O/w1cDnyilFU=')
         handler = WebhookHandler('6e4d6c59b5cd885348d5e5cc71a4957b')
         signature = request.headers['X-Line-Signature']
@@ -43,12 +41,25 @@ def callback():
         
         tk = json_data['events'][0]['replyToken']         # 取得 reply token
         msg = json_data['events'][0]['message']['text']   # 取得使用者發送的訊息
+        try:
+            data = int(msg)
+            print("訊息成功轉換為整數:", msg_as_int)
+            category="飲食" ##測試而已可刪==使用者輸入的類別
+            # Spreadsheet 名稱
+            spreadsheet_name = "ncummmoney" ###要放到main
+
+            # 呼叫函數添加數據
+            
+            totalcount = count(spreadsheet_name, category, data)
+        except ValueError:
+            print("訊息無法轉換成整數")
+        
         text_message = TextSendMessage(text=msg)          # 設定回傳同樣的訊息
         line_bot_api.reply_message(tk,text_message)       # 回傳訊息
     except:
         print('error')
->>>>>>> 16506210f188a048799c1a2801f4843bf047e841
     return 'OK'
+
 
 
 @line_handler.add(MessageEvent, message=TextMessage)

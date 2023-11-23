@@ -6,10 +6,7 @@ push檔案時 誰.注意事項
 把檔案更新上去 git push -u origin master 
 看設定檔 git log //markdown
 markdown 語法 https://github.com/guodongxiaren/README
-<<<<<<< HEAD
-=======
 
->>>>>>> 16506210f188a048799c1a2801f4843bf047e841
 //flask 語法
 @handler.add(MessageEvent, message=TextMessage)//當收到文字訊息時就開始執行
 def handle_message(event):

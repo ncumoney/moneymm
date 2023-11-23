@@ -26,3 +26,5 @@ spreadsheet_name = "ncummmoney" ###要放到main
 
 # 呼叫函數添加數據
 count(spreadsheet_name, category, data) ####main
+
+
