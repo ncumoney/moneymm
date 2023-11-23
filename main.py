@@ -29,7 +29,7 @@ def callback():
         #給選擇器按鈕
         
     except:
-        print('error')
+        print('若需要幫忙記帳，請輸入金額喔！')
     return 'OK'
 
 if __name__ == "__main__":
