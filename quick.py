@@ -33,33 +33,25 @@ def callback():
 def handle_message(event):
     msg = event.message.text
 
-    if 'quick' in msg:
+    if '金額' in msg:
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(
-                text='a quick reply message',
+            flex_message=TextSendMessage(
+                text='類別',
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
-                            action=CameraAction(label="開啟相機吧")
+                            action=MessageAction(label="吃", text="吃")
                         ),
                         QuickReplyButton(
-                            action=CameraRollAction(label="相機膠捲")
+                            action=MessageAction(label="娛樂", text="娛樂")
                         ),
                         # return a location message
                         QuickReplyButton(
-                            action=LocationAction(label="位置資訊")
+                            action=MessageAction(label="交通", text="交通")
                         ),
                         QuickReplyButton(
-                            action=PostbackAction(label="postback", data="postback")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="message", text="one message")
-                        ),
-                        QuickReplyButton(
-                            action=DatetimePickerAction(label="時間選單",
-                                                        data ="date_postback",
-                                                        mode ="date")
+                            action=MessageAction(label="日用品", text="日用品")
                         )
                     ])))
     else:
