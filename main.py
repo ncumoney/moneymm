@@ -2,16 +2,23 @@ from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
-import json
+import logging
 import os
 
-line_bot_api = LineBotApi("IjD9cOGGINHUXelSEl+HdVAc9oEDw3/kk+XMkfWyGZCdFyURygI18eD4rKfcpaKxajwsLmA0iCwnedwrM/qPSCy5BcBNNw+z8xIx/k4ytwxrAABJspIvWUUTWEYZOnYGRUUtw1B9Ez2tyL9qhqWhcwdB04t89/1O/w1cDnyilFU=")
-line_handler = WebhookHandler("6e4d6c59b5cd885348d5e5cc71a4957b")
+line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
+line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
+working_status = os.getenv("DEFALUT_TALKING", default = "true").lower() == "true"
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+    
 app = Flask(__name__)
 
+# domain root
 @app.route('/')
 def home():
+    logger.info("from logger print Hello, World")
+    print('print Hello, World!')
     return 'Hello, World!'
 
 @app.route("/webhook", methods=['POST'])
@@ -21,6 +28,7 @@ def callback():
     # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
+    print(f"callback {body}")
     # handle webhook body
     try:
         line_handler.handle(body, signature)
@@ -31,32 +39,18 @@ def callback():
 
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    global working_status
-    if event.message.type != "text":
-        return
-
-    if event.message.text == "說話":
-        working_status = True
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="我可以說話囉，歡迎來跟我互動 ^_^ "))
-        return
-
-    if event.message.text == "閉嘴":
-        working_status = False
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="好的，我乖乖閉嘴 > <，如果想要我繼續說話，請跟我說 「說話」 > <"))
-        return
-
-    if working_status:
-        chatgpt.add_msg(f"HUMAN:{event.message.text}?\n")
-        reply_msg = chatgpt.get_response().replace("AI:", "", 1)
-        chatgpt.add_msg(f"AI:{reply_msg}\n")
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=reply_msg))
-
+    user_message = event.message.text
+    print(f"text: {user_message}, user_id: {event.source.user_id}")
+    
+    reply_message = TextSendMessage(text=user_message)
+    line_bot_api.reply_message(event.reply_token, reply_message)
+    return
 
 if __name__ == "__main__":
+    print("Robin Su")
+    # Configure the logging
+    logging.basicConfig(level=logging.INFO)
+
+    # Log statement
+    logging.info("This is a log message.")
     app.run()
