@@ -4,10 +4,12 @@ from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from http.server import BaseHTTPRequestHandler
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import logging
 import os
+import count
 
 line_bot_api = LineBotApi("IjD9cOGGINHUXelSEl+HdVAc9oEDw3/kk+XMkfWyGZCdFyURygI18eD4rKfcpaKxajwsLmA0iCwnedwrM/qPSCy5BcBNNw+z8xIx/k4ytwxrAABJspIvWUUTWEYZOnYGRUUtw1B9Ez2tyL9qhqWhcwdB04t89/1O/w1cDnyilFU=")
 line_handler = WebhookHandler("6e4d6c59b5cd885348d5e5cc71a4957b")
@@ -75,23 +77,6 @@ def handle_message(event):
     reply_message = TextSendMessage(text=user_message)
     line_bot_api.reply_message(event.reply_token, reply_message)
     return
-
-def count(spreadsheet_name, category, data): ##data=使用者輸入的金額 category==類別
-    # 定義認證範圍
-    scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-    # 添加您的 JSON 憑證文件
-    creds = ServiceAccountCredentials.from_json_keyfile_name(r'C:\Users\yunyu\Desktop\moneymm\steam-boulevard-405907-f1cc6b42920f.json', scope)
-    # 授權和建立客戶端
-    client = gspread.authorize(creds)
-    # 打開 spreadsheet
-    sheet = client.open(spreadsheet_name).sheet1
-
-    # 插入數據
-    sheet.append_row([category, data])
-    allcount =sheet.col_values(2)
-    totocount = sum(float(value) for value in allcount if value)
-
-    return totocount
 
 if __name__ == "__main__":
     totalcount =0
