@@ -34,31 +34,6 @@ def callback():
         line_handler.handle(body, signature)
     except InvalidSignatureError:
         abort(400)
-<<<<<<< HEAD
-=======
-    
-    signature = request.headers['X-Line-Signature']
-    handler.handle(body, signature)
-    
-    tk = json_data['events'][0]['replyToken']         # 取得 reply token
-    msg = json_data['events'][0]['message']['text']   # 取得使用者發送的訊息
-    '''
-    try:
-        data = int(msg)
-        print("訊息成功轉換為整數:", data)
-        category="飲食" ##測試而已可刪==使用者輸入的類別
-        # Spreadsheet 名稱
-        spreadsheet_name = "ncummmoney" ###要放到main
-
-        # 呼叫函數添加數據
-        
-        totalcount = count(spreadsheet_name, category, data)
-    except ValueError:
-        print("訊息無法轉換成整數")
-    '''
-    text_message = TextSendMessage(text=msg)          # 設定回傳同樣的訊息
-    line_bot_api.reply_message(tk,text_message)       # 回傳訊息
->>>>>>> c8caeb41d0fec74d088be136c8ab55b22c4321b8
     return 'OK'
 
 
