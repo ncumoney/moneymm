@@ -66,8 +66,6 @@ def handle_message1(event):
     try:
         price = int(event.message.text) #ok
         handle_message2(event)
-        '''''
-        ''''
         category=handle_category_reply(event)
         total = count(user_id,category,price)
         print(total)
