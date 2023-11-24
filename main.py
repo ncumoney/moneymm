@@ -54,13 +54,16 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=f"結果是: {price}"))
+        totol = count(spreadsheet_name, category,price)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=f"總花費: {totol}"))
     except ValueError:
         # 如果訊息無法轉換為整數
         print("notok")
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="請輸入有效的數字"))
-    totol = count(spreadsheet_name, category,price)
     '''
     if "吃" in event.message.text:
         line_bot_api.reply_message(
