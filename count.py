@@ -10,11 +10,14 @@ def count(spreadsheet_name, category, data): ##data=使用者輸入的金額 cat
     client = gspread.authorize(creds)
     # 打開 spreadsheet
     sheet = client.open(spreadsheet_name).sheet1
+    print([category, data])
 
     # 插入數據
     sheet.append_row([category, data])
     allcount =sheet.col_values(2)
+    print(allcount)
     totocount = sum(float(value) for value in allcount if value)
+    print(totocount)
 
     return totocount
 '''
