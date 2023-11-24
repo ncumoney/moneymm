@@ -44,20 +44,21 @@ def handle_message(event):
     print(f"text: {user_message}, user_id: {event.source.user_id}")
     print("12345")
     print(type(event.message.text))
-    price = int(event.message.text) #ok
-    line_bot_api.reply_message(
+    
+    
+   
+    
+    try:
+        price = int(event.message.text) #ok
+        line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=f"結果是: {price}"))
-    
-    ##reply_message = TextSendMessage(text=f"結果是: {price}")
-    '''
-    try:
-        data=int(user_message)
-        reply_message = TextSendMessage(text=f"結果是: {data}")
     except ValueError:
         # 如果訊息無法轉換為整數
-        reply_message = TextSendMessage(text="請輸入有效的數字")
-    '''
+        line_bot_api.reply_message(
+            event.reply_token,
+        reply_message = TextSendMessage(text="請輸入有效的數字"))
+    
     if "吃" in event.message.text:
         line_bot_api.reply_message(
             event.reply_token,
