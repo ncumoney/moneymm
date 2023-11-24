@@ -45,8 +45,10 @@ def handle_message(event):
     print("12345")
     print(type(event.message.text))
     price = int(event.message.text) #ok
+    line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="結果是 "))
     
-    reply_message = TextSendMessage(text=f"結果是: ")
     ##reply_message = TextSendMessage(text=f"結果是: {price}")
     '''
     try:
