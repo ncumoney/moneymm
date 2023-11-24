@@ -6,8 +6,8 @@ import logging
 import os
 
 
-line_bot_api = LineBotApi("LINE_CHANNEL_ACCESS_TOKEN")
-line_handler = WebhookHandler("LINE_CHANNEL_SECRET")
+line_bot_api = LineBotApi("IjD9cOGGINHUXelSEl+HdVAc9oEDw3/kk+XMkfWyGZCdFyURygI18eD4rKfcpaKxajwsLmA0iCwnedwrM/qPSCy5BcBNNw+z8xIx/k4ytwxrAABJspIvWUUTWEYZOnYGRUUtw1B9Ez2tyL9qhqWhcwdB04t89/1O/w1cDnyilFU=")
+line_handler = WebhookHandler("b7d573ed2e48da0d263982523bb3d478")
 working_status = os.getenv("DEFALUT_TALKING", default = "true").lower() == "true"
 
 logging.basicConfig(level=logging.INFO)
