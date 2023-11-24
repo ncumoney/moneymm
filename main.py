@@ -36,14 +36,20 @@ def callback():
         abort(400)
     return 'OK'
 
-
+data=0
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user_message = event.message.text
     print(f"text: {user_message}, user_id: {event.source.user_id}")
     print("12345")
     print(type(event.message.text))
-    ##data = (int)[event.message.text]
+    try:
+        data=int(user_message)
+        reply_message = TextSendMessage(text=f"結果是: {data}")
+    except ValueError:
+        # 如果訊息無法轉換為整數
+        reply_message = TextSendMessage(text="請輸入有效的數字")
+        
     if "吃" in event.message.text:
         line_bot_api.reply_message(
             event.reply_token,
