@@ -5,7 +5,7 @@ def count(spreadsheet_name, category, data): ##data=使用者輸入的金額 cat
     # 定義認證範圍
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
     # 添加您的 JSON 憑證文件
-    creds = ServiceAccountCredentials.from_json_keyfile_name(r'C:\Users\yunyu\Desktop\moneymm\steam-boulevard-405907-f1cc6b42920f.json', scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_name('C:\Users\yunyu\Desktop\moneymm\steam-boulevard-405907-f1cc6b42920f.json', scope)
     # 授權和建立客戶端
     client = gspread.authorize(creds)
     # 打開 spreadsheet
