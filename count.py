@@ -17,7 +17,7 @@ def count(spreadsheet_name, category, data): ##data=使用者輸入的金額 cat
     totocount = sum(float(value) for value in allcount if value)
 
     return totocount
-
+'''
 # 要添加的數據，例如 ["2023/03/01", "餐廳", 300]
 data =300 ##測試而已可刪==使用者輸入的金額 
 category="飲食" ##測試而已可刪==使用者輸入的類別
@@ -26,5 +26,6 @@ spreadsheet_name = "ncummmoney" ###要放到main
 
 # 呼叫函數添加數據
 count(spreadsheet_name, category, data) ####main
+'''
 
 
