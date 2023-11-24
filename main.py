@@ -5,8 +5,7 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 import logging
 import os
 
-line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
-line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
+
 working_status = os.getenv("DEFALUT_TALKING", default = "true").lower() == "true"
 
 logging.basicConfig(level=logging.INFO)
@@ -43,13 +42,16 @@ def handle_message(event):
     print(f"text: {user_message}, user_id: {event.source.user_id}")
     print("12345")
     print(type(event.message.text))
+    price = int(event.message.text)
+    reply_message = TextSendMessage(text=f"結果是: {price}")
+    '''
     try:
         data=int(user_message)
         reply_message = TextSendMessage(text=f"結果是: {data}")
     except ValueError:
         # 如果訊息無法轉換為整數
         reply_message = TextSendMessage(text="請輸入有效的數字")
-        
+    '''
     if "吃" in event.message.text:
         line_bot_api.reply_message(
             event.reply_token,
