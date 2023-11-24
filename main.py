@@ -1,6 +1,7 @@
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
+from linebot.models import *
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 import logging
 import os
@@ -41,7 +42,7 @@ def callback():
 
 data=0
 @line_handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
+def handle_message1(event):
     user_message = event.message.text
     print(f"text: {user_message}, user_id: {event.source.user_id}")
     
@@ -49,7 +50,8 @@ def handle_message(event):
     
     try:
         price = int(event.message.text) #ok
-        category="飲食" 
+        handle_message2(event) 
+        category=quick(event)
         total = count(category,price)
         print(total)
         line_bot_api.reply_message(
@@ -93,6 +95,63 @@ def count(category, data): ##data=使用者輸入的金額 category==類別
     print(totocount)
 
     return totocount
+
+@line_handler.add(MessageEvent, message=TextMessage)
+def handle_message2(event):
+    msg = event.message.text
+
+    while True:
+        line_bot_api.reply_message(
+            event.reply_token,
+            flex_message=TextSendMessage(
+                text='類別',
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=MessageAction(label="飲食", text="飲食")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="娛樂", text="娛樂")
+                        ),
+                        # return a location message
+                        QuickReplyButton(
+                            action=MessageAction(label="交通", text="交通")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="日用品", text="日用品")
+                        )
+                    ])))
+
+@line_handler.add(MessageEvent, message=TextMessage)
+def quick(event):
+    # 獲取收到的訊息
+    user_message = event.message.text
+
+    # 初始化變數值
+    variable_value = None
+
+    # 根據收到的訊息中的關鍵字設定變數值
+    if '飲食' in user_message.lower():
+        variable_value = '飲食'
+    elif '娛樂' in user_message.lower():
+        variable_value = '娛樂'
+    elif '交通' in user_message.lower():
+        variable_value = '交通'
+    elif '日用品' in user_message.lower():
+        variable_value = '日用品'
+
+    # 準備回覆訊息
+    if variable_value is not None:
+        response = f'已將該消費分類為： {variable_value}'
+    else:
+        response = '抱歉，我不確定您提到的是什麼。'
+
+    # 回覆訊息
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=response)
+    )
+    return variable_value
 
 
 if __name__ == "__main__":

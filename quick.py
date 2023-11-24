@@ -30,7 +30,7 @@ def callback():
 
 # handle text message
 @handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
+def handle_message2(event):
     msg = event.message.text
 
     if '金額' in msg:
@@ -41,7 +41,7 @@ def handle_message(event):
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
-                            action=MessageAction(label="吃", text="吃")
+                            action=MessageAction(label="飲食", text="飲食")
                         ),
                         QuickReplyButton(
                             action=MessageAction(label="娛樂", text="娛樂")
@@ -63,7 +63,7 @@ def handle_message(event):
 
 # Handle PostbackEvent
 @handler.add(PostbackEvent)
-def handle_message(event):
+def handle_message3(event):
     data = event.postback.data
     if data == 'date_postback':
         line_bot_api.reply_message(
