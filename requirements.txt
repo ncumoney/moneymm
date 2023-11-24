@@ -3,4 +3,3 @@ Werkzeug==2.2.2
 gspread==3.6.0
 oauth2client==4.1.3
 line-bot-sdk
-extensions==4.5.0
