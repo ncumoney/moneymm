@@ -4,6 +4,7 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 import logging
 import os
+import count
 
 
 line_bot_api = LineBotApi("IjD9cOGGINHUXelSEl+HdVAc9oEDw3/kk+XMkfWyGZCdFyURygI18eD4rKfcpaKxajwsLmA0iCwnedwrM/qPSCy5BcBNNw+z8xIx/k4ytwxrAABJspIvWUUTWEYZOnYGRUUtw1B9Ez2tyL9qhqWhcwdB04t89/1O/w1cDnyilFU=")
@@ -59,6 +60,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="請輸入有效的數字"))
+    totol = count(spreadsheet_name, category,price)
     '''
     if "吃" in event.message.text:
         line_bot_api.reply_message(
@@ -71,7 +73,9 @@ def handle_message(event):
     return
 '''
 if __name__ == "__main__":
-    print("Robin Su")
+    category="飲食" ##測試而已可刪==使用者輸入的類別
+    # Spreadsheet 名稱
+    spreadsheet_name = "ncummmoney"
     # Configure the logging
     logging.basicConfig(level=logging.INFO)
 
