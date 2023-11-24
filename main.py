@@ -54,7 +54,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=f"結果是: {price}"))
-        total = count(spreadsheet_name, category,price)
+        total = count(category,price)
         print(total)
         line_bot_api.reply_message(
             event.reply_token,
