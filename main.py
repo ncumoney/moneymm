@@ -41,7 +41,9 @@ def callback():
 def handle_message(event):
     user_message = event.message.text
     print(f"text: {user_message}, user_id: {event.source.user_id}")
+    print("12345")
     print(type(event.message.text))
+    data = (int)[event.message.text]
     if "吃" in event.message.text:
         line_bot_api.reply_message(
             event.reply_token,
