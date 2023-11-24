@@ -45,6 +45,7 @@ def handle_message(event):
     print("12345")
     print(type(event.message.text))
     price = int(event.message.text)
+    print(price)
     reply_message = TextSendMessage(text=f"結果是: {price}")
     '''
     try:
