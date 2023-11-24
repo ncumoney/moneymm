@@ -41,29 +41,47 @@ def callback():
     return 'OK'
 
 data=0
+user_data = {}
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message1(event):
     user_message = event.message.text
     user_id = event.source.user_id
+    try:
+        price = int(user_message)  # 嘗試將用戶輸入轉換為數字
+        # 存儲用戶輸入的價格，以便在處理類別回覆時使用
+        user_data[user_id] = {'price': price}
+        # 提示用戶選擇類別
+        handle_message2(event)
+    except ValueError:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="請輸入有效的數字"))
+
+    '''''
+    user_data[user_id] = {'price': price}
     print(f"text: {user_message}, user_id: {event.source.user_id}")
     
     print(type(event.message.text))
     
     try:
         price = int(event.message.text) #ok
-        handle_message2() 
-        category=catogery(event)
+        handle_message2(event)
+        '''''
+        ''''
+        category=handle_category_reply(event)
         total = count(user_id,category,price)
         print(total)
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=f"結果是: {price},總花費: {total}"))
-      
+        '''
+    ''''
     except ValueError:
         
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="請輸入有效的數字"))
+    ''''
     '''
     if "吃" in event.message.text:
         line_bot_api.reply_message(
@@ -108,7 +126,7 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
 
 # handle text message
 @line_handler.add(MessageEvent, message=TextMessage)
-def handle_message2():
+def handle_message2(event):
    print("選擇分類")
    line_bot_api.reply_message(
        event.reply_token,
@@ -140,34 +158,52 @@ def handle_message(event):
             event.reply_token, TextSendMessage(text=event.postback.params['date']))
 
 @line_handler.add(MessageEvent, message=TextMessage)
-def catogery(event):
+def handle_category_reply(event):
     # 獲取收到的訊息
     user_message = event.message.text
 
     # 初始化變數值
     variable_value = None
 
-    # 根據收到的訊息中的關鍵字設定變數值
-    if '飲食' in user_message.lower():
-        variable_value = '飲食'
-    elif '娛樂' in user_message.lower():
-        variable_value = '娛樂'
-    elif '交通' in user_message.lower():
-        variable_value = '交通'
-    elif '日用品' in user_message.lower():
-        variable_value = '日用品'
-
-    # 準備回覆訊息
-    if variable_value is not None:
-        response = f'已將該消費分類為： {variable_value}'
+    if user_id in user_data and 'price' in user_data[user_id]:
+        price = user_data[user_id]['price']
+        # 根據收到的訊息中的關鍵字設定變數值
+        if '飲食' in user_message.lower():
+            variable_value = '飲食'
+        elif '娛樂' in user_message.lower():
+            variable_value = '娛樂'
+        elif '交通' in user_message.lower():
+            variable_value = '交通'
+        elif '日用品' in user_message.lower():
+            variable_value = '日用品'
+        total = count(user_id, category, price)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=f"類別: {category}, 金額: {price}, 總花費: {total}"))
     else:
         response = '抱歉，我不確定您提到的是什麼。'
-
-    # 回覆訊息
-    line_bot_api.reply_message(
+        line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=response)
-    )
+        )
+
+        
+
+    # 準備回覆訊息
+    #if variable_value is not None:
+        #response = f'已將該消費分類為： {variable_value}'
+    #else:
+        #response = '抱歉，我不確定您提到的是什麼。'
+        #line_bot_api.reply_message(
+        #event.reply_token,
+        #TextSendMessage(text=response)
+        #)
+
+    # 回覆訊息
+    #line_bot_api.reply_message(
+        #event.reply_token,
+        #TextSendMessage(text=response)
+    #)
     return variable_value
 
 
