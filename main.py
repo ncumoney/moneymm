@@ -55,9 +55,10 @@ def handle_message(event):
             TextSendMessage(text=f"結果是: {price}"))
     except ValueError:
         # 如果訊息無法轉換為整數
+        print("notok")
         line_bot_api.reply_message(
             event.reply_token,
-        reply_message = TextSendMessage(text="請輸入有效的數字"))
+            TextSendMessage(text="請輸入有效的數字"))
     
     if "吃" in event.message.text:
         line_bot_api.reply_message(
