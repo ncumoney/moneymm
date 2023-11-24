@@ -107,7 +107,7 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
     return totocount
 
 # handle text message
-@handler.add(MessageEvent, message=TextMessage)
+@line_handler.add(MessageEvent, message=TextMessage)
 def handle_message2(event):
     msg = event.message.text
 
