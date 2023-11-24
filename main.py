@@ -4,7 +4,8 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 import logging
 import os
-import count
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 
 line_bot_api = LineBotApi("IjD9cOGGINHUXelSEl+HdVAc9oEDw3/kk+XMkfWyGZCdFyURygI18eD4rKfcpaKxajwsLmA0iCwnedwrM/qPSCy5BcBNNw+z8xIx/k4ytwxrAABJspIvWUUTWEYZOnYGRUUtw1B9Ez2tyL9qhqWhcwdB04t89/1O/w1cDnyilFU=")
@@ -76,6 +77,29 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, reply_message)
     return
 '''
+
+def count(category, data): ##data=使用者輸入的金額 category==類別
+    # 定義認證範圍
+    scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+    # 添加您的 JSON 憑證文件
+    creds = ServiceAccountCredentials.from_json_keyfile_name('steam-boulevard-405907-f1cc6b42920f.json', scope)
+    # 授權和建立客戶端
+    client = gspread.authorize(creds)
+    spreadsheet_name = "ncummmoney"
+    # 打開 spreadsheet
+    sheet = client.open(spreadsheet_name).sheet1
+    print([category, data])
+
+    # 插入數據
+    sheet.append_row([category, data])
+    allcount =sheet.col_values(2)
+    print(allcount)
+    totocount = sum(float(value) for value in allcount if value)
+    print(totocount)
+
+    return totocount
+
+
 if __name__ == "__main__":
     category="飲食" ##測試而已可刪==使用者輸入的類別
     # Spreadsheet 名稱
