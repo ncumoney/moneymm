@@ -44,9 +44,10 @@ def handle_message(event):
     print(f"text: {user_message}, user_id: {event.source.user_id}")
     print("12345")
     print(type(event.message.text))
-    price = int(event.message.text)
-    print(price)
-    reply_message = TextSendMessage(text=f"結果是: {price}")
+    price = int(event.message.text) #ok
+    
+    reply_message = TextSendMessage(text=f"結果是: ")
+    ##reply_message = TextSendMessage(text=f"結果是: {price}")
     '''
     try:
         data=int(user_message)
