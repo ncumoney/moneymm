@@ -49,15 +49,17 @@ def handle_message(event):
     
     try:
         price = int(event.message.text) #ok
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=f"結果是: {price}"))
         category="飲食" 
         total = count(category,price)
         print(total)
         line_bot_api.reply_message(
             event.reply_token,
+            TextSendMessage(text=f"結果是: {price},總花費: {total}"))
+        '''
+        line_bot_api.reply_message(
+            event.reply_token,
             TextSendMessage(text=f"總花費: {total}"))
+            '''
     except ValueError:
         
         line_bot_api.reply_message(
