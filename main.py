@@ -44,7 +44,7 @@ data=0
 def handle_message(event):
     user_message = event.message.text
     print(f"text: {user_message}, user_id: {event.source.user_id}")
-    print("12345")
+    
     print(type(event.message.text))
     
     try:
@@ -55,11 +55,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=f"結果是: {price},總花費: {total}"))
-        '''
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=f"總花費: {total}"))
-            '''
+      
     except ValueError:
         
         line_bot_api.reply_message(
