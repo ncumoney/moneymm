@@ -1,13 +1,14 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-def count(spreadsheet_name, category, data): ##data=使用者輸入的金額 category==類別
+def count(category, data): ##data=使用者輸入的金額 category==類別
     # 定義認證範圍
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
     # 添加您的 JSON 憑證文件
     creds = ServiceAccountCredentials.from_json_keyfile_name('steam-boulevard-405907-f1cc6b42920f.json', scope)
     # 授權和建立客戶端
     client = gspread.authorize(creds)
+    spreadsheet_name = "ncummmoney"
     # 打開 spreadsheet
     sheet = client.open(spreadsheet_name).sheet1
     print([category, data])

@@ -47,9 +47,6 @@ def handle_message(event):
     print("12345")
     print(type(event.message.text))
     
-    
-   
-    
     try:
         price = int(event.message.text) #ok
         line_bot_api.reply_message(
