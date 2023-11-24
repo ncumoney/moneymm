@@ -114,7 +114,7 @@ def handle_message2(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(
-            text='a quick reply message',
+            text='請選擇類別',
             quick_reply=QuickReply(
                 items=[
                     QuickReplyButton(
@@ -133,7 +133,7 @@ def handle_message2(event):
 
 
 # Handle PostbackEvent
-@handler.add(PostbackEvent)
+@line_handler.add(PostbackEvent)
 def handle_message(event):
     data = event.postback.data
     if data == 'date_postback':
