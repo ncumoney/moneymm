@@ -52,7 +52,7 @@ def handle_message1(event):
     try:
         price = int(event.message.text) #ok
         handle_message2(event) 
-        category=quick(event)
+        category=catogery(event)
         total = count(user_id,category,price)
         print(total)
         line_bot_api.reply_message(
@@ -106,34 +106,42 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
 
     return totocount
 
-@line_handler.add(MessageEvent, message=TextMessage)
+# handle text message
+@handler.add(MessageEvent, message=TextMessage)
 def handle_message2(event):
     msg = event.message.text
 
-    while True:
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(
+            text='a quick reply message',
+            quick_reply=QuickReply(
+                items=[
+                    QuickReplyButton(
+                        action=MessageAction(label="娛樂", text="娛樂棒")
+                    ),
+                    QuickReplyButton(
+                        action=MessageAction(label="餐飲", text="餐飲棒")
+                    ),
+                    QuickReplyButton(
+                        action=MessageAction(label="交通", text="交通棒")
+                    ),
+                    QuickReplyButton(
+                        action=MessageAction(label="掉錢", text="掉錢笨")
+                    )
+                ])))
+
+
+# Handle PostbackEvent
+@handler.add(PostbackEvent)
+def handle_message(event):
+    data = event.postback.data
+    if data == 'date_postback':
         line_bot_api.reply_message(
-            event.reply_token,
-            flex_message=TextSendMessage(
-                text='類別',
-                quick_reply=QuickReply(
-                    items=[
-                        QuickReplyButton(
-                            action=MessageAction(label="飲食", text="飲食")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="娛樂", text="娛樂")
-                        ),
-                        # return a location message
-                        QuickReplyButton(
-                            action=MessageAction(label="交通", text="交通")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="日用品", text="日用品")
-                        )
-                    ])))
+            event.reply_token, TextSendMessage(text=event.postback.params['date']))
 
 @line_handler.add(MessageEvent, message=TextMessage)
-def quick(event):
+def catogery(event):
     # 獲取收到的訊息
     user_message = event.message.text
 
@@ -168,6 +176,8 @@ if __name__ == "__main__":
     category="飲食" ##測試而已可刪==使用者輸入的類別
     # Spreadsheet 名稱
     spreadsheet_name = "ncummmoney"
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
     # Configure the logging
     logging.basicConfig(level=logging.INFO)
 
