@@ -59,7 +59,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="請輸入有效的數字"))
-    
+    '''
     if "吃" in event.message.text:
         line_bot_api.reply_message(
             event.reply_token,
@@ -69,7 +69,7 @@ def handle_message(event):
         reply_message = TextSendMessage(text=user_message)
         line_bot_api.reply_message(event.reply_token, reply_message)
     return
-
+'''
 if __name__ == "__main__":
     print("Robin Su")
     # Configure the logging
