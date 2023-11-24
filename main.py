@@ -51,7 +51,7 @@ def handle_message1(event):
     
     try:
         price = int(event.message.text) #ok
-        handle_message2(event) 
+        handle_message2() 
         category=catogery(event)
         total = count(user_id,category,price)
         print(total)
@@ -108,7 +108,7 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
 
 # handle text message
 @line_handler.add(MessageEvent, message=TextMessage)
-def handle_message2(event):
+def handle_message2():
    print("選擇分類")
    line_bot_api.reply_message(
        event.reply_token,
