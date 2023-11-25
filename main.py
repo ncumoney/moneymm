@@ -101,7 +101,10 @@ def handle_message2(event):
     print("handle message2")
     try:
         money = int(event.message.text) #ok
+        print(money)
+        
         price = money
+        print(price)
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
