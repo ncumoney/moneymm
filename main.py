@@ -53,7 +53,7 @@ def handle_message1(event):
         price = int(event.message.text) #ok
         
         handle_message2(event.message.text) #跳quick
-        
+        print("GG@@@@@@@@")
         category=catogery(event)
         total = count(user_id,category,price)
         print(total)
