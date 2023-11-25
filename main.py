@@ -8,6 +8,7 @@ import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
+
 line_bot_api = LineBotApi("IjD9cOGGINHUXelSEl+HdVAc9oEDw3/kk+XMkfWyGZCdFyURygI18eD4rKfcpaKxajwsLmA0iCwnedwrM/qPSCy5BcBNNw+z8xIx/k4ytwxrAABJspIvWUUTWEYZOnYGRUUtw1B9Ez2tyL9qhqWhcwdB04t89/1O/w1cDnyilFU=")
 line_handler = WebhookHandler("b7d573ed2e48da0d263982523bb3d478")
 working_status = os.getenv("DEFALUT_TALKING", default = "true").lower() == "true"
@@ -15,7 +16,7 @@ working_status = os.getenv("DEFALUT_TALKING", default = "true").lower() == "true
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 user_status={}
-
+    
 app = Flask(__name__)
 
 # domain root
@@ -41,19 +42,28 @@ def callback():
     return 'OK'
 
 data=0
-# 判斷使用者輸入為數字後跳出快速回覆
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message1(event):
+    user_message = event.message.text
+    user_id = event.source.user_id
     try:
-        price = int(event.message.text) #ok
+        price = int(event.message.text) #ok       
         handle_message2(event.message.text) #跳quick
+        category=catogery(event)
+        total = count(user_id,category,price)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=f"結果是: {price},總花費: {total}"))
       
     except ValueError:
+        
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="請輸入有效的數字"))
-#運算支出
-def count(user_id, category, data):
+    
+
+
+def count(user_id, category, data): ##data=使用者輸入的金額 category==類別
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
     creds = ServiceAccountCredentials.from_json_keyfile_name('steam-boulevard-405907-f1cc6b42920f.json', scope)
     client = gspread.authorize(creds)
@@ -66,15 +76,18 @@ def count(user_id, category, data):
         personsheet=sheet.worksheet(worksheet_name_to_check)
     else:
         personsheet = sheet.add_worksheet(title=worksheet_name_to_check, rows="1000", cols="1000")
-        
+
     personsheet.append_row([category, data])
     allcount =personsheet.col_values(2)
     totocount = sum(float(value) for value in allcount if value)
+
     return totocount
 
+# handle text message
 @line_handler.add(MessageEvent, message=TextMessage)
 #快速選單
 def handle_message2(event):  
+    msg = event.message.text
     user_id = event.source.user_id
     try:
         money = int(event.message.text) #ok
@@ -101,10 +114,12 @@ def handle_message2(event):
     except ValueError:
         category=catogery(event)
         price=user_status[user_id]
+        print(price,category)
         total = count(user_id,category,price)
+        print(total)
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=f"已將消費{price}元分類為「{category}」,總花費: {total}"))
+            TextSendMessage(text=f"已將消費{price}元分類為{category},總花費: {total}"))
 
 
 # Handle PostbackEvent
@@ -115,14 +130,12 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token, TextSendMessage(text=event.postback.params['date']))
 
-
 #@line_handler.add(MessageEvent, message=TextMessage)
 #分類
 def catogery(event):
     user_message = event.message.text
     variable_value = None
 
-    # 根據收到的訊息中的關鍵字設定變數值
     if '飲食' in user_message.lower():
         variable_value = '飲食'
     elif '娛樂' in user_message.lower():
@@ -134,9 +147,10 @@ def catogery(event):
 
     return variable_value
 
-
 #主函式
 if __name__ == "__main__":
+
+    # Spreadsheet 名稱
     spreadsheet_name = "ncummmoney"
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
