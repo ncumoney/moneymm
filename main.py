@@ -54,7 +54,7 @@ def handle_message1(event):
         
         handle_message2(event.message.text) #跳quick
         print("GG@@@@@@@@")
-        category=catogery(event)
+        #category=catogery(event)
         total = count(user_id,category,price)
         print(total)
         line_bot_api.reply_message(
