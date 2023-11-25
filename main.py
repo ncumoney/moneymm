@@ -123,25 +123,25 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
 # handle text message
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message2(event):
-   print("選擇分類")
-   line_bot_api.reply_message(
-       event.reply_token,
-       TextSendMessage(
-           text='請選擇類別',
-           quick_reply=QuickReply(
-               items=[
-                   QuickReplyButton(
-                       action=MessageAction(label="娛樂", text="娛樂棒")
-                       ),
-                       QuickReplyButton(
-                           action=MessageAction(label="餐飲", text="餐飲棒")
-                           ),
-                           QuickReplyButton(
-                               action=MessageAction(label="交通", text="交通棒")
-                               ),
-                               QuickReplyButton(
-                                   action=MessageAction(label="掉錢", text="掉錢笨")
-                                   )
+    print("選擇分類")
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(
+            text='請選擇類別',
+            quick_reply=QuickReply(
+                items=[
+                    QuickReplyButton(
+                        action=MessageAction(label="娛樂", text="娛樂棒")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="餐飲", text="餐飲棒")
+                            ),
+                            QuickReplyButton(
+                                action=MessageAction(label="交通", text="交通棒")
+                                ),
+                                QuickReplyButton(
+                                    action=MessageAction(label="掉錢", text="掉錢笨")
+                                    )
             ])))
     body = request.get_data(as_text=True)
     json_data = json.loads(body)
