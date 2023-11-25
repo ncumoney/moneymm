@@ -46,12 +46,11 @@ def handle_message1(event):
     user_message = event.message.text
     user_id = event.source.user_id
     print(f"text: {user_message}, user_id: {event.source.user_id}")
-    
     print(type(event.message.text))
     
     try:
         price = int(event.message.text) #ok
-        handle_message2(event) #跳quick
+        handle_message2(event.message.text) #跳quick
         
         category=catogery(event)
         total = count(user_id,category,price)
@@ -104,6 +103,7 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
 def handle_message2(event):  
     msg = event.message.text
     print("handle message2")
+    
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(
@@ -165,7 +165,7 @@ def catogery(event):
     )
     return variable_value
 
-
+#主函式
 if __name__ == "__main__":
     category="飲食" ##測試而已可刪==使用者輸入的類別
     # Spreadsheet 名稱
