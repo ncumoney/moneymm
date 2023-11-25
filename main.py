@@ -100,7 +100,7 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
     return totocount
 
 # handle text message
-#@line_handler.add(MessageEvent, message=TextMessage)
+@line_handler.add(MessageEvent, message=TextMessage)
 #快速選單
 def handle_message2(event): 
      
@@ -129,14 +129,14 @@ def handle_message2(event):
 
 
 # Handle PostbackEvent
-#@line_handler.add(PostbackEvent)
+@line_handler.add(PostbackEvent)
 def handle_message(event):
     data = event.postback.data
     if data == 'date_postback':
         line_bot_api.reply_message(
             event.reply_token, TextSendMessage(text=event.postback.params['date']))
 
-#@line_handler.add(MessageEvent, message=TextMessage)
+@line_handler.add(MessageEvent, message=TextMessage)
 #分類
 def catogery(event):
     # 獲取收到的訊息
