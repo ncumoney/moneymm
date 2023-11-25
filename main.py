@@ -41,7 +41,7 @@ def callback():
     return 'OK'
 
 data=0
-user_data = {}
+#user_data = {}
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message1(event):
     user_message = event.message.text
@@ -49,7 +49,7 @@ def handle_message1(event):
     try:
         price = int(user_message)  # 嘗試將用戶輸入轉換為數字
         # 存儲用戶輸入的價格，以便在處理類別回覆時使用
-        user_data[user_id] = {'price': price}
+        #user_data[user_id] = {'price': price}
         # 提示用戶選擇類別
         handle_message2(event)
     except ValueError:
@@ -145,11 +145,20 @@ def handle_message2(event):
                                    action=MessageAction(label="掉錢", text="掉錢笨")
                                    )
             ])))
-
+    body = request.get_data(as_text=True)
+    json_data = json.loads(body)
+    tk = json_data['events'][0]['replyToken']         # 取得 reply token
+    msg = json_data['events'][0]['message']['text']
+    category=handle_category_reply(event)
+    total = count(user_id,category,price)
+    print(total)
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=f"結果是: {price},總花費: {total}"))
 
 # Handle PostbackEvent
 @line_handler.add(PostbackEvent)
-def handle_message(event):
+def handle_message3(event):
     data = event.postback.data
     if data == 'date_postback':
         line_bot_api.reply_message(
