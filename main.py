@@ -161,12 +161,13 @@ def catogery(event):
         response = f'已將該消費分類為： {variable_value}'
     else:
         response = '抱歉，我不確定您提到的是什麼。'
-'''''
+
     # 回覆訊息
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=response)
     )
+    '''''
     return variable_value
 
 #主函式
