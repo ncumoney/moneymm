@@ -57,6 +57,7 @@ def count(user_id, category, data):
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
     creds = ServiceAccountCredentials.from_json_keyfile_name('steam-boulevard-405907-f1cc6b42920f.json', scope)
     client = gspread.authorize(creds)
+    spreadsheet_name = "ncummmoney"
     sheet = client.open(spreadsheet_name)
     worksheet_titles = [worksheet.title for worksheet in sheet.worksheets()]
     worksheet_name_to_check = str(user_id)
@@ -137,8 +138,6 @@ def catogery(event):
 #主函式
 if __name__ == "__main__":
 
-    # Spreadsheet 名稱
-    spreadsheet_name = "ncummmoney"
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
     # Configure the logging
