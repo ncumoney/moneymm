@@ -47,7 +47,7 @@ def handle_message1(event):
     user_id = event.source.user_id
     print(f"text: {user_message}, user_id: {event.source.user_id}")
     print(type(event.message.text))
-    print("event")
+    print("000000000")
     print(type(event))
     try:
         price = int(event.message.text) #ok
