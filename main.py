@@ -69,7 +69,7 @@ def handle_message1(event):
     
 
 
-def count(user_id, category, data): ##data=使用者輸入的金額 category==類別
+def count(category, data): ##data=使用者輸入的金額 category==類別
     # 定義認證範圍
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
     # 添加您的 JSON 憑證文件
@@ -78,24 +78,15 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
     client = gspread.authorize(creds)
     spreadsheet_name = "ncummmoney"
     # 打開 spreadsheet
-    sheet = client.open(spreadsheet_name)
+    sheet = client.open(spreadsheet_name).sheet1
+    print([category, data])
 
-    # 獲取所有工作表的名稱
-    worksheet_titles = [worksheet.title for worksheet in sheet.worksheets()]
-
-    # 要檢查的工作表名稱
-    worksheet_name_to_check = str(user_id)
-
-    # 檢查是否存在
-    if worksheet_name_to_check in worksheet_titles:
-        personsheet=spreadsheet_name.worksheet(worksheet_name_to_check)
-    else:
-        # 創建一個新的工作表，你可以指定其名稱和行列數
-        personsheet = spreadsheet_name.add_worksheet(title=worksheet_name_to_check)
-
-    personsheet.append_row([category, data])
-    allcount =personsheet.col_values(2)
-    totocount = sum(float(value) for value in allcount if value)
+    # 插入數據
+    sheet.append_row([category, data])
+    allcount =sheet.col_values(2)
+    print(allcount)
+    totocount = int(sum(float(value) for value in allcount if value))
+    print(totocount)
 
     return totocount
 
