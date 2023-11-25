@@ -40,7 +40,7 @@ def callback():
         abort(400)
     return 'OK'
 
-#data=0
+data=0
 # 判斷使用者輸入為數字後跳出快速回覆
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message1(event):
@@ -105,7 +105,7 @@ def handle_message2(event):
             event.reply_token,
             TextSendMessage(text=f"已將消費{price}元分類為「{category}」,總花費: {total}"))
 
-
+'''
 # Handle PostbackEvent
 @line_handler.add(PostbackEvent)
 def handle_message(event):
@@ -114,7 +114,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token, TextSendMessage(text=event.postback.params['date']))
 
-
+'''
 #@line_handler.add(MessageEvent, message=TextMessage)
 #分類
 def catogery(event):
