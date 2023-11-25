@@ -92,7 +92,7 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
         personsheet=sheet.worksheet(worksheet_name_to_check)
     else:
         # 創建一個新的工作表，你可以指定其名稱和行列數
-        personsheet = sheet.add_worksheet(title=worksheet_name_to_check)
+        personsheet = sheet.add_worksheet(title=worksheet_name_to_check, rows="1000", cols="1000")
 
     personsheet.append_row([category, data])
     allcount =personsheet.col_values(2)
