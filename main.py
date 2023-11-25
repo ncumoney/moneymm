@@ -8,7 +8,6 @@ import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-
 line_bot_api = LineBotApi("IjD9cOGGINHUXelSEl+HdVAc9oEDw3/kk+XMkfWyGZCdFyURygI18eD4rKfcpaKxajwsLmA0iCwnedwrM/qPSCy5BcBNNw+z8xIx/k4ytwxrAABJspIvWUUTWEYZOnYGRUUtw1B9Ez2tyL9qhqWhcwdB04t89/1O/w1cDnyilFU=")
 line_handler = WebhookHandler("b7d573ed2e48da0d263982523bb3d478")
 working_status = os.getenv("DEFALUT_TALKING", default = "true").lower() == "true"
@@ -16,7 +15,7 @@ working_status = os.getenv("DEFALUT_TALKING", default = "true").lower() == "true
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 user_status={}
-    
+
 app = Flask(__name__)
 
 # domain root
@@ -41,73 +40,41 @@ def callback():
         abort(400)
     return 'OK'
 
-data=0
+#data=0
+# 判斷使用者輸入為數字後跳出快速回覆
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message1(event):
-    user_message = event.message.text
-    user_id = event.source.user_id
-    print(f"text: {user_message}, user_id: {event.source.user_id}")
-    print(type(event.message.text))
-    print("000000000")
-    print(type(event))
     try:
         price = int(event.message.text) #ok
-        
         handle_message2(event.message.text) #跳quick
-        print("GG@@@@@@@@")
-        category=catogery(event)
-        total = count(user_id,category,price)
-        print(total)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=f"結果是: {price},總花費: {total}"))
       
     except ValueError:
-        
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="請輸入有效的數字"))
-    
-
-
-def count(user_id, category, data): ##data=使用者輸入的金額 category==類別
-    # 定義認證範圍
+#運算支出
+def count(user_id, category, data):
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-    # 添加您的 JSON 憑證文件
     creds = ServiceAccountCredentials.from_json_keyfile_name('steam-boulevard-405907-f1cc6b42920f.json', scope)
-    # 授權和建立客戶端
     client = gspread.authorize(creds)
-    spreadsheet_name = "ncummmoney"
-    # 打開 spreadsheet
     sheet = client.open(spreadsheet_name)
-
-    # 獲取所有工作表的名稱
     worksheet_titles = [worksheet.title for worksheet in sheet.worksheets()]
-
-    # 要檢查的工作表名稱
     worksheet_name_to_check = str(user_id)
 
-    # 檢查是否存在
     if worksheet_name_to_check in worksheet_titles:
         personsheet=sheet.worksheet(worksheet_name_to_check)
     else:
-        # 創建一個新的工作表，你可以指定其名稱和行列數
         personsheet = sheet.add_worksheet(title=worksheet_name_to_check, rows="1000", cols="1000")
-
+        
     personsheet.append_row([category, data])
     allcount =personsheet.col_values(2)
     totocount = sum(float(value) for value in allcount if value)
-
     return totocount
 
-# handle text message
 @line_handler.add(MessageEvent, message=TextMessage)
 #快速選單
 def handle_message2(event):  
-    msg = event.message.text
     user_id = event.source.user_id
-    print(event.message.text)
-    print("handle message2")
     try:
         money = int(event.message.text) #ok
         user_status[user_id]=money
@@ -133,14 +100,12 @@ def handle_message2(event):
     except ValueError:
         category=catogery(event)
         price=user_status[user_id]
-        print(price,category)
         total = count(user_id,category,price)
-        print(total)
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=f"已將消費{price}元分類為{category},總花費: {total}"))
+            TextSendMessage(text=f"已將消費{price}元分類為「{category}」,總花費: {total}"))
 
-
+'''
 # Handle PostbackEvent
 @line_handler.add(PostbackEvent)
 def handle_message(event):
@@ -149,13 +114,11 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token, TextSendMessage(text=event.postback.params['date']))
 
+'''
 #@line_handler.add(MessageEvent, message=TextMessage)
 #分類
 def catogery(event):
-    # 獲取收到的訊息
     user_message = event.message.text
-
-    # 初始化變數值
     variable_value = None
 
     # 根據收到的訊息中的關鍵字設定變數值
@@ -169,19 +132,6 @@ def catogery(event):
         variable_value = '日用品'
 
     return variable_value
-'''''
-    # 準備回覆訊息
-    if variable_value is not None:
-        response = f'已將該消費分類為： {variable_value}'
-    else:
-        response = '抱歉，我不確定您提到的是什麼。'
-
-    # 回覆訊息
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=response)
-    )
-    '''''
 
 
 #主函式
