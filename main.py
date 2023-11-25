@@ -155,6 +155,8 @@ def catogery(event):
         variable_value = '交通'
     elif '日用品' in user_message.lower():
         variable_value = '日用品'
+
+    return variable_value
 '''''
     # 準備回覆訊息
     if variable_value is not None:
@@ -168,7 +170,7 @@ def catogery(event):
         TextSendMessage(text=response)
     )
     '''''
-    return variable_value
+
 
 #主函式
 if __name__ == "__main__":
