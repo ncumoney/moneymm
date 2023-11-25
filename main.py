@@ -99,7 +99,7 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
     return totocount
 
 # handle text message
-@line_handler.add(MessageEvent, message=TextMessage)
+#@line_handler.add(MessageEvent, message=TextMessage)
 #快速選單
 def handle_message2(event): 
      
@@ -128,15 +128,15 @@ def handle_message2(event):
 
 
 # Handle PostbackEvent
-@line_handler.add(PostbackEvent)
+#@line_handler.add(PostbackEvent)
 def handle_message(event):
     data = event.postback.data
     if data == 'date_postback':
         line_bot_api.reply_message(
             event.reply_token, TextSendMessage(text=event.postback.params['date']))
 
-@line_handler.add(MessageEvent, message=TextMessage)
-#放入表單
+#@line_handler.add(MessageEvent, message=TextMessage)
+#分類
 def catogery(event):
     # 獲取收到的訊息
     user_message = event.message.text
@@ -169,7 +169,7 @@ def catogery(event):
 
 #主函式
 if __name__ == "__main__":
-    category="飲食" ##測試而已可刪==使用者輸入的類別
+
     # Spreadsheet 名稱
     spreadsheet_name = "ncummmoney"
     port = int(os.environ.get('PORT', 5000))
@@ -180,14 +180,4 @@ if __name__ == "__main__":
     # Log statement
     logging.info("This is a log message.")
     app.run()
-    category="飲食" ##測試而已可刪==使用者輸入的類別
-    # Spreadsheet 名稱
-    spreadsheet_name = "ncummmoney"
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
-    # Configure the logging
-    logging.basicConfig(level=logging.INFO)
-
-    # Log statement
-    logging.info("This is a log message.")
-    app.run()
+   
