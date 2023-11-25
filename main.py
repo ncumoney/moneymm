@@ -105,9 +105,12 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
 def handle_message2(event): 
      
     msg = event.message.text
+    print(event.message.text)
+    price = 0
     print("handle message2")
     try:
-        price = int(event.message.text) #ok
+        money = int(event.message.text) #ok
+        price = money
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
@@ -118,7 +121,7 @@ def handle_message2(event):
                             action=MessageAction(label="娛樂", text="娛樂")
                         ),
                         QuickReplyButton(
-                            action=MessageAction(label="餐飲", text="餐飲")
+                            action=MessageAction(label="飲食", text="飲食")
                         ),
                         QuickReplyButton(
                             action=MessageAction(label="交通", text="交通")
