@@ -80,14 +80,11 @@ def count(category, data): ##data=使用者輸入的金額 category==類別
     spreadsheet_name = "ncummmoney"
     # 打開 spreadsheet
     sheet = client.open(spreadsheet_name).sheet1
-    print([category, data])
 
     # 插入數據
     sheet.append_row([category, data])
     allcount =sheet.col_values(2)
-    print(allcount)
     totocount = int(sum(float(value) for value in allcount if value))
-    print(totocount)
 
     return totocount
 
@@ -129,10 +126,7 @@ def handle_message2(event):
         print(total)
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=f"結果是: {price},總花費: {total}"))
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="回去排隊"))
+            TextSendMessage(text=f"已將消費{price}分類為{category},總花費: {total}"))
 
 
 # Handle PostbackEvent
@@ -161,13 +155,13 @@ def catogery(event):
         variable_value = '交通'
     elif '日用品' in user_message.lower():
         variable_value = '日用品'
-
+'''''
     # 準備回覆訊息
     if variable_value is not None:
         response = f'已將該消費分類為： {variable_value}'
     else:
         response = '抱歉，我不確定您提到的是什麼。'
-
+'''''
     # 回覆訊息
     line_bot_api.reply_message(
         event.reply_token,
