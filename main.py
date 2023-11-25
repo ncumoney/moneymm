@@ -128,6 +128,13 @@ def handle_message2(event):
                         )
                     ])))
     except ValueError:
+        category=catogery(event)
+        user_id = event.source.user_id
+        total = count(user_id,category,price)
+        print(total)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=f"結果是: {price},總花費: {total}"))
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="回去排隊"))
