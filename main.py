@@ -125,7 +125,7 @@ def handle_message2(event):
         category=catogery(event)
         user_id = event.source.user_id
         print(user_id)
-        total = count(user_id,category,price)
+        total = count(category,price)
         print(total)
         line_bot_api.reply_message(
             event.reply_token,
