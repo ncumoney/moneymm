@@ -184,3 +184,14 @@ if __name__ == "__main__":
     # Log statement
     logging.info("This is a log message.")
     app.run()
+    category="飲食" ##測試而已可刪==使用者輸入的類別
+    # Spreadsheet 名稱
+    spreadsheet_name = "ncummmoney"
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
+    # Configure the logging
+    logging.basicConfig(level=logging.INFO)
+
+    # Log statement
+    logging.info("This is a log message.")
+    app.run()
