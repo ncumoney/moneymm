@@ -126,7 +126,7 @@ def handle_message2(event):
         print(total)
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=f"已將消費{price}分類為{category},總花費: {total}"))
+            TextSendMessage(text=f"已將消費{price}元分類為{category},總花費: {total}"))
 
 
 # Handle PostbackEvent
