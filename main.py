@@ -51,7 +51,8 @@ def handle_message1(event):
     
     try:
         price = int(event.message.text) #ok
-        handle_message2(event) 
+        handle_message2(event) #跳quick
+        
         category=catogery(event)
         total = count(user_id,category,price)
         print(total)
@@ -64,17 +65,8 @@ def handle_message1(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="請輸入有效的數字"))
-    '''
-    if "吃" in event.message.text:
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="多少錢呢？ "))
-        return
-    else:
-        reply_message = TextSendMessage(text=user_message)
-        line_bot_api.reply_message(event.reply_token, reply_message)
-    return
-'''
+    
+
 
 def count(user_id, category, data): ##data=使用者輸入的金額 category==類別
     # 定義認證範圍
@@ -108,9 +100,10 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
 
 # handle text message
 @line_handler.add(MessageEvent, message=TextMessage)
-def handle_message2(event):
+#快速選單
+def handle_message2(event):  
     msg = event.message.text
-
+    print("handle message2")
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(
@@ -141,6 +134,7 @@ def handle_message(event):
             event.reply_token, TextSendMessage(text=event.postback.params['date']))
 
 @line_handler.add(MessageEvent, message=TextMessage)
+#放入表單
 def catogery(event):
     # 獲取收到的訊息
     user_message = event.message.text
