@@ -79,8 +79,6 @@ def handle_message1(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="請輸入有效的數字"))
-    ''''
-    '''
     if "吃" in event.message.text:
         line_bot_api.reply_message(
             event.reply_token,
