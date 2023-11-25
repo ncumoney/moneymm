@@ -47,7 +47,8 @@ def handle_message1(event):
     user_id = event.source.user_id
     print(f"text: {user_message}, user_id: {event.source.user_id}")
     print(type(event.message.text))
-    
+    print("event")
+    print(type(event))
     try:
         price = int(event.message.text) #ok
         handle_message2(event.message.text) #跳quick
@@ -100,7 +101,8 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
 # handle text message
 @line_handler.add(MessageEvent, message=TextMessage)
 #快速選單
-def handle_message2(event):  
+def handle_message2(event): 
+     
     msg = event.message.text
     print("handle message2")
     
