@@ -179,16 +179,16 @@ def handle_category_reply(event):
         variable_value = '交通'
     elif '日用品' in user_message.lower():
         variable_value = '日用品'
-    total = count(user_id, category, price)
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=f"類別: {category}, 金額: {price}, 總花費: {total}"))
     else:
         response = '抱歉，我不確定您提到的是什麼。'
         line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=response)
         )
+    total = count(user_id, category, price)
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=f"類別: {category}, 金額: {price}, 總花費: {total}"))
 
         
 
