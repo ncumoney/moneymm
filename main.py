@@ -170,21 +170,19 @@ def handle_category_reply(event):
     # 初始化變數值
     variable_value = None
 
-    if user_id in user_data and 'price' in user_data[user_id]:
-        price = user_data[user_id]['price']
-        # 根據收到的訊息中的關鍵字設定變數值
-        if '飲食' in user_message.lower():
-            variable_value = '飲食'
-        elif '娛樂' in user_message.lower():
-            variable_value = '娛樂'
-        elif '交通' in user_message.lower():
-            variable_value = '交通'
-        elif '日用品' in user_message.lower():
-            variable_value = '日用品'
-        total = count(user_id, category, price)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=f"類別: {category}, 金額: {price}, 總花費: {total}"))
+    # 根據收到的訊息中的關鍵字設定變數值
+    if '飲食' in user_message.lower():
+        variable_value = '飲食'
+    elif '娛樂' in user_message.lower():
+        variable_value = '娛樂'
+    elif '交通' in user_message.lower():
+        variable_value = '交通'
+    elif '日用品' in user_message.lower():
+        variable_value = '日用品'
+    total = count(user_id, category, price)
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=f"類別: {category}, 金額: {price}, 總花費: {total}"))
     else:
         response = '抱歉，我不確定您提到的是什麼。'
         line_bot_api.reply_message(
