@@ -51,6 +51,7 @@ def handle_message1(event):
     print(type(event))
     try:
         price = int(event.message.text) #ok
+        
         handle_message2(event.message.text) #跳quick
         
         category=catogery(event)
@@ -103,7 +104,7 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
 #快速選單
 def handle_message2(event): 
      
-    msg = event.message.text
+    #msg = event.message.text
     print("handle message2")
     
     line_bot_api.reply_message(
