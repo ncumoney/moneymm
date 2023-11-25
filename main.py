@@ -104,28 +104,33 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
 #快速選單
 def handle_message2(event): 
      
-    #msg = event.message.text
+    msg = event.message.text
     print("handle message2")
-    
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(
-            text='請選擇類別',
-            quick_reply=QuickReply(
-                items=[
-                    QuickReplyButton(
-                        action=MessageAction(label="娛樂", text="娛樂棒")
-                    ),
-                    QuickReplyButton(
-                        action=MessageAction(label="餐飲", text="餐飲棒")
-                    ),
-                    QuickReplyButton(
-                        action=MessageAction(label="交通", text="交通棒")
-                    ),
-                    QuickReplyButton(
-                        action=MessageAction(label="掉錢", text="掉錢笨")
-                    )
-                ])))
+    try:
+        price = int(event.message.text) #ok
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(
+                text='請選擇類別',
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=MessageAction(label="娛樂", text="娛樂")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="餐飲", text="餐飲")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="交通", text="交通")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="日用品", text="日用品")
+                        )
+                    ])))
+    except ValueError:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="回去排隊"))
 
 
 # Handle PostbackEvent
