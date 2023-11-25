@@ -41,44 +41,30 @@ def callback():
     return 'OK'
 
 data=0
-#user_data = {}
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message1(event):
     user_message = event.message.text
     user_id = event.source.user_id
-    try:
-        price = int(user_message)  # 嘗試將用戶輸入轉換為數字
-        # 存儲用戶輸入的價格，以便在處理類別回覆時使用
-        #user_data[user_id] = {'price': price}
-        # 提示用戶選擇類別
-        handle_message2(event)
-    except ValueError:
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="請輸入有效的數字"))
-
-    '''''
-    user_data[user_id] = {'price': price}
     print(f"text: {user_message}, user_id: {event.source.user_id}")
     
     print(type(event.message.text))
     
     try:
         price = int(event.message.text) #ok
-        handle_message2(event)
-        category=handle_category_reply(event)
+        handle_message2(event) 
+        category=catogery(event)
         total = count(user_id,category,price)
         print(total)
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=f"結果是: {price},總花費: {total}"))
-        '''
-    ''''
+      
     except ValueError:
         
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="請輸入有效的數字"))
+    '''
     if "吃" in event.message.text:
         line_bot_api.reply_message(
             event.reply_token,
@@ -123,7 +109,8 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
 # handle text message
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message2(event):
-    print("選擇分類")
+    msg = event.message.text
+
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(
@@ -132,38 +119,29 @@ def handle_message2(event):
                 items=[
                     QuickReplyButton(
                         action=MessageAction(label="娛樂", text="娛樂棒")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="餐飲", text="餐飲棒")
-                            ),
-                            QuickReplyButton(
-                                action=MessageAction(label="交通", text="交通棒")
-                                ),
-                                QuickReplyButton(
-                                    action=MessageAction(label="掉錢", text="掉錢笨")
-                                    )
-            ])))
-    body = request.get_data(as_text=True)
-    json_data = json.loads(body)
-    tk = json_data['events'][0]['replyToken']         # 取得 reply token
-    msg = json_data['events'][0]['message']['text']
-    category=handle_category_reply(event)
-    total = count(user_id,category,price)
-    print(total)
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=f"結果是: {price},總花費: {total}"))
+                    ),
+                    QuickReplyButton(
+                        action=MessageAction(label="餐飲", text="餐飲棒")
+                    ),
+                    QuickReplyButton(
+                        action=MessageAction(label="交通", text="交通棒")
+                    ),
+                    QuickReplyButton(
+                        action=MessageAction(label="掉錢", text="掉錢笨")
+                    )
+                ])))
+
 
 # Handle PostbackEvent
 @line_handler.add(PostbackEvent)
-def handle_message3(event):
+def handle_message(event):
     data = event.postback.data
     if data == 'date_postback':
         line_bot_api.reply_message(
             event.reply_token, TextSendMessage(text=event.postback.params['date']))
 
 @line_handler.add(MessageEvent, message=TextMessage)
-def handle_category_reply(event):
+def catogery(event):
     # 獲取收到的訊息
     user_message = event.message.text
 
@@ -179,34 +157,18 @@ def handle_category_reply(event):
         variable_value = '交通'
     elif '日用品' in user_message.lower():
         variable_value = '日用品'
-    else:
-        response = '抱歉，我不確定您提到的是什麼。'
-        line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=response)
-        )
-    total = count(user_id, category, price)
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=f"類別: {category}, 金額: {price}, 總花費: {total}"))
-
-        
 
     # 準備回覆訊息
-    #if variable_value is not None:
-        #response = f'已將該消費分類為： {variable_value}'
-    #else:
-        #response = '抱歉，我不確定您提到的是什麼。'
-        #line_bot_api.reply_message(
-        #event.reply_token,
-        #TextSendMessage(text=response)
-        #)
+    if variable_value is not None:
+        response = f'已將該消費分類為： {variable_value}'
+    else:
+        response = '抱歉，我不確定您提到的是什麼。'
 
     # 回覆訊息
-    #line_bot_api.reply_message(
-        #event.reply_token,
-        #TextSendMessage(text=response)
-    #)
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=response)
+    )
     return variable_value
 
 
