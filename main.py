@@ -102,7 +102,6 @@ def handle_message2(event):
     try:
         money = int(event.message.text) #ok
         user_status[user_id]=money
-        print(price)
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
