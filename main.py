@@ -15,6 +15,7 @@ working_status = os.getenv("DEFALUT_TALKING", default = "true").lower() == "true
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+user_status={}
     
 app = Flask(__name__)
 
@@ -93,17 +94,14 @@ def count(category, data): ##data=使用者輸入的金額 category==類別
 # handle text message
 @line_handler.add(MessageEvent, message=TextMessage)
 #快速選單
-def handle_message2(event): 
-     
+def handle_message2(event):  
     msg = event.message.text
+    user_id = event.source.user_id
     print(event.message.text)
-    price = 0
     print("handle message2")
     try:
         money = int(event.message.text) #ok
-        print(money)
-        
-        price = money
+        user_status[user_id]=money
         print(price)
         line_bot_api.reply_message(
             event.reply_token,
@@ -126,7 +124,7 @@ def handle_message2(event):
                     ])))
     except ValueError:
         category=catogery(event)
-        
+        price=user_status[user_id]
         print(price,category)
         total = count(category,price)
         print(total)
