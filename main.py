@@ -117,9 +117,15 @@ def handle_message2(event):
         print(price,category)
         total = count(user_id,category,price)
         print(total)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=f"已將消費{price}元分類為{category},總花費: {total}"))
+        if(total>=1000):
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=f"這個月花太多了喔～你是大盤子嗎？\n已將消費{price}元分類為{category},總花費: {total}"))
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=f"已將消費{price}元分類為{category},總花費: {total}"))
+            
 
 
 # Handle PostbackEvent
