@@ -112,7 +112,7 @@ def handle_message2(event):
                         )
                     ])))
     except ValueError:
-        category=catogery(event)
+        category=catogery(event,price)
         price=user_status[user_id]
         print(price,category)
         total = count(user_id,category,price)
@@ -132,20 +132,24 @@ def handle_message(event):
 
 #@line_handler.add(MessageEvent, message=TextMessage)
 #分類
-def catogery(event):
+def catogery(event,price):
     user_message = event.message.text
     variable_value = None
 
     if '飲食' in user_message.lower():
         variable_value = '飲食'
+        price = -price
     elif '娛樂' in user_message.lower():
         variable_value = '娛樂'
+        price = -price
     elif '交通' in user_message.lower():
         variable_value = '交通'
+        price = -price
     elif '日用品' in user_message.lower():
         variable_value = '日用品'
+        price = -price
 
-    return variable_value
+    return variable_value,price
 
 #主函式
 if __name__ == "__main__":
@@ -160,5 +164,4 @@ if __name__ == "__main__":
     # Log statement
     logging.info("This is a log message.")
     app.run()
-   
    
