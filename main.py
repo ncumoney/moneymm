@@ -53,7 +53,7 @@ def handle_message1(event):
         total = count(user_id,category,price)
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=f"結果是: {price},總花費: {total}"))
+            TextSendMessage(text=f"結果是: {price},總花費: {total}"))#這裡會用到嗎？
       
     except ValueError:
         
@@ -120,7 +120,7 @@ def handle_message2(event):
         if(total>=1000):
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=f"這個月花太多了喔～你是大盤子嗎？\n已將消費{price}元分類為{category},總花費: {total}"))
+                TextSendMessage(text=f"這個月花太多了喔～你是大盤子嗎？已將消費{price}元分類為{category},總花費: {total}"))
         else:
             line_bot_api.reply_message(
                 event.reply_token,
