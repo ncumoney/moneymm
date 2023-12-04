@@ -147,8 +147,9 @@ def handle_message2(event):
                         )
                     ])))
     except ValueError:
-        category=catogery(event,price)
+        
         price=user_status[user_id]
+        category=catogery(event,price)
         print(price,category)
         category_totals = count(user_id,category,price)
         print(category_totals)
