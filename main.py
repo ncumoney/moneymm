@@ -81,7 +81,42 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
     allcount =personsheet.col_values(2)
     totocount = sum(float(value) for value in allcount if value)
 
-    return totocount
+    maxxx=len(personsheet.col_values(1))
+    records = personsheet.col_values(1)
+
+    countall={}
+    for i in range(maxxx):
+      if records[i]=='日用品':
+        readwhere=int(personsheet.cell(i+1, 2).value)
+        if '日用品' in countall:
+          countall['日用品']+=readwhere
+        else:
+          countall['日用品']=readwhere
+        print(countall)
+      if records[i]=='娛樂':
+        readwhere=int(personsheet.cell(i+1, 2).value)
+        if '娛樂' in countall:
+          countall['娛樂']+=readwhere
+        else:
+          countall['娛樂']=readwhere
+        print(countall)
+      if records[i]=='交通':
+        readwhere=int(personsheet.cell(i+1, 2).value)
+        if '交通' in countall:
+          countall['交通']+=readwhere
+        else:
+          countall['交通']=readwhere
+        print(countall)
+      if records[i]=='飲食':
+        readwhere=int(personsheet.cell(i+1, 2).value)
+        if '飲食' in countall:
+          countall['飲食']+=readwhere
+        else:
+          countall['飲食']=readwhere
+        print(countall)
+    countall['餘額']=totocount
+
+    return countall
 
 # handle text message
 @line_handler.add(MessageEvent, message=TextMessage)
@@ -115,8 +150,10 @@ def handle_message2(event):
         category=catogery(event,price)
         price=user_status[user_id]
         print(price,category)
-        total = count(user_id,category,price)
-        print(total)
+        category_totals = count(user_id,category,price)
+        print(category_totals)
+        reply_message = "各類別消費總額:\n" + "\n".join([f"{category}: {total}" for category, total in category_totals.items()])
+        print(reply_message)
         if total>=1000:
             line_bot_api.reply_message(
                 event.reply_token,
