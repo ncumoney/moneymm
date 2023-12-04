@@ -144,7 +144,11 @@ def handle_message2(event):
                         ),
                         QuickReplyButton(
                             action=MessageAction(label="日用品", text="日用品")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="收入", text="收入")
                         )
+                        
                     ])))
     except ValueError:
         
@@ -159,11 +163,11 @@ def handle_message2(event):
         if category_totals['餘額']<=1000:
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=f"{reply_message}\n這個月花太多了喔～你是大盤子嗎？\n已將消費{price}元分類為{category},總花費: {category_totals['餘額']}"))
+                TextSendMessage(text=f"{reply_message}\n\n這個月花太多了喔～你是大盤子嗎？\n已將消費{price}元分類為{category},餘額: {category_totals['餘額']}"))
         else: 
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=f"已將消費{price}元分類為{category},總花費: {category_totals['餘額']}"))
+                TextSendMessage(text=f"{reply_message}\n\n已將消費{price}元分類為{category},總花費: {category_totals['餘額']}"))
             
 
 
@@ -193,6 +197,9 @@ def catogery(event,price):
     elif '日用品' in user_message.lower():
         variable_value = '日用品'
         price = -price
+    elif '收入' in user_message.lower():
+        variable_value = '收入'
+        
 
     return variable_value,price
 
