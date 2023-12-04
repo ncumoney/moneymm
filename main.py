@@ -150,6 +150,7 @@ def handle_message2(event):
         
         price=user_status[user_id]
         category=catogery(event,price)
+        print("price,category")
         print(price,category)
         category_totals = count(user_id,category,price)
         print(category_totals)
