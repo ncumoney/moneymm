@@ -85,6 +85,7 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
     records = personsheet.col_values(1)
 
     countall={}
+    countall['飲食']=countall['交通']=countall['娛樂']=countall['日用品']=0
     for i in range(maxxx):
       if records[i]=='日用品':
         readwhere=int(personsheet.cell(i+1, 2).value)
