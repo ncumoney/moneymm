@@ -114,7 +114,12 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
         else:
           countall['飲食']=readwhere
         print(countall)
+    countall['總花費']=countall['飲食']+countall['交通']+countall['娛樂']+countall['日用品']
     countall['餘額']=totocount
+    countall['日用品占比']=countall['日用品']/countall['總花費']*100
+    countall['交通占比']=countall['交通']/countall['總花費']*100
+    countall['飲食占比']=countall['飲食']/countall['總花費']*100
+    countall['娛樂占比']=countall['娛樂']/countall['總花費']*100
 
     return countall
 
