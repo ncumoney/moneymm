@@ -159,7 +159,7 @@ def handle_message2(event):
         if category_totals['餘額']<=1000:
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=f"這個月花太多了喔～你是大盤子嗎？\n已將消費{price}元分類為{category},總花費: {category_totals['餘額']}"))
+                TextSendMessage(text=f"{reply_message}\n這個月花太多了喔～你是大盤子嗎？\n已將消費{price}元分類為{category},總花費: {category_totals['餘額']}"))
         else: 
             line_bot_api.reply_message(
                 event.reply_token,
