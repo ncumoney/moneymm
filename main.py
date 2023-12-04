@@ -156,7 +156,7 @@ def handle_message2(event):
         print(category_totals)
         reply_message = "各類別消費總額:\n" + "\n".join([f"{category}: {total}" for category, total in category_totals.items()])
         print(reply_message)
-        if category_totals['餘額']>=1000:
+        if category_totals['餘額']<=1000:
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=f"這個月花太多了喔～你是大盤子嗎？已將消費{price}元分類為{category},總花費: {category_totals['餘額']}"))
