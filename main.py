@@ -49,7 +49,7 @@ def handle_message1(event):
     try:
         price = int(event.message.text) #ok       
         handle_message2(event.message.text) #跳quick
-        category=catogery(event)
+        category=catogery(event,price)
         total = count(user_id,category,price)
         line_bot_api.reply_message(
             event.reply_token,
