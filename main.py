@@ -164,7 +164,7 @@ def handle_message2(event):
         print(price,category)
         category_totals = count(user_id,category,price)
         print(category_totals)
-        reply_message = "各類別消費總額:\n" + "\n".join([f"{category}: {total}" for category, total in category_totals.items()])
+        reply_message = "各類別消費總額:\n" + "\n".join([f"{category}: {total}" for category, total in category_totals.items(5)])
         print(reply_message)
         if category_totals['餘額']<=1000:
             line_bot_api.reply_message(
