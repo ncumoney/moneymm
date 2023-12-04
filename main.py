@@ -85,42 +85,41 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
     records = personsheet.col_values(1)
 
     countall={}
-    countall['飲食']=countall['交通']=countall['娛樂']=countall['日用品']=[]
     for i in range(maxxx):
       if records[i]=='日用品':
         readwhere=int(personsheet.cell(i+1, 2).value)
         if '日用品' in countall:
-          countall['日用品'][0]+=readwhere
+          countall['日用品']+=readwhere
         else:
-          countall['日用品'][0]=readwhere
+          countall['日用品']=readwhere
         print(countall)
       if records[i]=='娛樂':
         readwhere=int(personsheet.cell(i+1, 2).value)
         if '娛樂' in countall:
-          countall['娛樂'][0]+=readwhere
+          countall['娛樂']+=readwhere
         else:
-          countall['娛樂'][0]=readwhere
+          countall['娛樂']=readwhere
         print(countall)
       if records[i]=='交通':
         readwhere=int(personsheet.cell(i+1, 2).value)
         if '交通' in countall:
-          countall['交通'][0]+=readwhere
+          countall['交通']+=readwhere
         else:
-          countall['交通'][0]=readwhere
+          countall['交通']=readwhere
         print(countall)
       if records[i]=='飲食':
         readwhere=int(personsheet.cell(i+1, 2).value)
         if '飲食' in countall:
-          countall['飲食'][0]+=readwhere
+          countall['飲食']+=readwhere
         else:
-          countall['飲食'][0]=readwhere
+          countall['飲食']=readwhere
         print(countall)
     countall['總花費']=countall['飲食']+countall['交通']+countall['娛樂']+countall['日用品']
     countall['餘額']=totocount
-    countall['日用品'][1]=countall['日用品']/countall['總花費']*100
-    countall['交通'][1]=countall['交通']/countall['總花費']*100
-    countall['飲食'][1]=countall['飲食']/countall['總花費']*100
-    countall['娛樂'][1]=countall['娛樂']/countall['總花費']*100
+    #countall['日用品'][1]=countall['日用品']/countall['總花費']*100
+    #countall['交通'][1]=countall['交通']/countall['總花費']*100
+    #countall['飲食'][1]=countall['飲食']/countall['總花費']*100
+    #countall['娛樂'][1]=countall['娛樂']/countall['總花費']*100
 
     return countall
 
