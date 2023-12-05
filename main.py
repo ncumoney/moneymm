@@ -89,37 +89,37 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
       if records[i]=='日用品':
         readwhere=int(personsheet.cell(i+1, 2).value)
         if '日用品' in countall:
-          countall['日用品']+=readwhere
+          countall['日用品'][0]+=readwhere
         else:
-          countall['日用品']=readwhere
+          countall['日用品']=[readwhere]
         print(countall)
       if records[i]=='娛樂':
         readwhere=int(personsheet.cell(i+1, 2).value)
         if '娛樂' in countall:
-          countall['娛樂']+=readwhere
+          countall['娛樂'][0]+=readwhere
         else:
-          countall['娛樂']=readwhere
+          countall['娛樂']=[readwhere]
         print(countall)
       if records[i]=='交通':
         readwhere=int(personsheet.cell(i+1, 2).value)
         if '交通' in countall:
-          countall['交通']+=readwhere
+          countall['交通'][0]+=readwhere
         else:
-          countall['交通']=readwhere
+          countall['交通']=[readwhere]
         print(countall)
       if records[i]=='飲食':
         readwhere=int(personsheet.cell(i+1, 2).value)
         if '飲食' in countall:
-          countall['飲食']+=readwhere
+          countall['飲食'][0]+=readwhere
         else:
-          countall['飲食']=readwhere
+          countall['飲食']=[readwhere]
         print(countall)
-    countall['總花費']=countall['飲食']+countall['交通']+countall['娛樂']+countall['日用品']
+    countall['總花費']=countall['飲食'][0]+countall['交通'][0]+countall['娛樂'][0]+countall['日用品'][0]
     countall['餘額']=totocount
-    #countall['日用品'][1]=countall['日用品']/countall['總花費']*100
-    #countall['交通'][1]=countall['交通']/countall['總花費']*100
-    #countall['飲食'][1]=countall['飲食']/countall['總花費']*100
-    #countall['娛樂'][1]=countall['娛樂']/countall['總花費']*100
+    countall['日用品'].append(round(countall['日用品'][0]/countall['總花費']*100,2))
+    countall['交通'].append(round(countall['交通'][0]/countall['總花費']*100,2))
+    countall['飲食'].append(round(countall['飲食'][0]/countall['總花費']*100,2))
+    countall['娛樂'].append(round(countall['娛樂'][0]/countall['總花費']*100,2))
 
     return countall
 
@@ -163,7 +163,14 @@ def handle_message2(event):
         print(price,category)
         category_totals = count(user_id,category,price)
         print(category_totals)
-        reply_message = "各類別消費總額:\n" + "\n".join([f"{category}: {total}" for category, total in category_totals.items()])
+        reply_message = "各類别消費情况如下：\n"
+        for category, data in category_totals.items():
+            if category == '總花費':
+                reply_message += f"總花費: {data}元\n"
+            elif category == '餘額':
+                reply_message += f"餘額: {data}元\n"
+            else:
+                reply_message += f"{category}消费: {data[0]}元，占比: {data[1]}%\n"
         print(reply_message)
         if category_totals['餘額']<=1000:
             line_bot_api.reply_message(
