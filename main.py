@@ -164,13 +164,13 @@ def handle_message2(event):
         category_totals = count(user_id,category,price)
         print(category_totals)
         reply_message = "各類别消費情况如下：\n"
-        for category, data in category_totals.items():
-            if category == '總花費':
+        for allcategory, data in category_totals.items():
+            if allcategory == '總花費':
                 reply_message += f"總花費: {data}元\n"
-            elif category == '餘額':
+            elif allcategory == '餘額':
                 reply_message += f"餘額: {data}元\n"
             else:
-                reply_message += f"{category}消费: {data[0]}元，占比: {data[1]}%\n"
+                reply_message += f"{allcategory}消费: {data[0]}元，占比: {data[1]}%\n"
         print(reply_message)
         print(category)
         if category_totals['餘額']<=1000:
