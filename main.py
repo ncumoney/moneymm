@@ -185,7 +185,7 @@ def handle_message2(event):
         reply_message = "各類别消費情况如下：\n"
         for allcategory, data in category_totals.items():
             if allcategory == '收入':
-                reply_message += f"收入: {int(data)}元\n"
+                reply_message += f"收入: {data[0]}元\n"
             elif allcategory == '總花費':
                 reply_message += f"總花費: {data}元\n"
             elif allcategory == '餘額':
