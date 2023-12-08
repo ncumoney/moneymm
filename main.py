@@ -3,6 +3,7 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from datetime import datetime
 import logging
 import os
 import gspread
@@ -41,6 +42,10 @@ def callback():
         abort(400)
     return 'OK'
 
+def get_current_date():
+    # 獲取當前日期並格式化為 YYYY-MM
+    return datetime.now().strftime('%Y-%m')
+
 data=0
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message1(event):
@@ -66,9 +71,10 @@ def handle_message1(event):
 def count(user_id, category, data): ##data=使用者輸入的金額 category==類別
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
     creds = ServiceAccountCredentials.from_json_keyfile_name('steam-boulevard-405907-f1cc6b42920f.json', scope)
-    client = gspread.authorize(creds)
+    cclient = gspread.authorize(creds)
     spreadsheet_name = "ncummmoney"
     sheet = client.open(spreadsheet_name)
+    current_date = get_current_date() 
     worksheet_titles = [worksheet.title for worksheet in sheet.worksheets()]
     worksheet_name_to_check = str(user_id)
 
@@ -77,44 +83,56 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
     else:
         personsheet = sheet.add_worksheet(title=worksheet_name_to_check, rows="1000", cols="1000")
 
-    personsheet.append_row([category, data])
-    allcount =personsheet.col_values(2)
+    personsheet.append_row([current_date, category, data])
+    allcount =personsheet.col_values(3)
     totocount = sum(float(value) for value in allcount if value)
 
-    maxxx=len(personsheet.col_values(1))
-    records = personsheet.col_values(1)
+    maxxx=len(personsheet.col_values(2))
+    records = personsheet.col_values(2)
+    now_mounth = personsheet.col_values(1)
 
     countall={}
     for i in range(maxxx):
-      if records[i]=='日用品':
-        readwhere=int(personsheet.cell(i+1, 2).value)
-        if '日用品' in countall:
-          countall['日用品'][0]+=readwhere
-        else:
-          countall['日用品']=[readwhere]
-        print(countall)
-      if records[i]=='娛樂':
-        readwhere=int(personsheet.cell(i+1, 2).value)
-        if '娛樂' in countall:
-          countall['娛樂'][0]+=readwhere
-        else:
-          countall['娛樂']=[readwhere]
-        print(countall)
-      if records[i]=='交通':
-        readwhere=int(personsheet.cell(i+1, 2).value)
-        if '交通' in countall:
-          countall['交通'][0]+=readwhere
-        else:
-          countall['交通']=[readwhere]
-        print(countall)
-      if records[i]=='飲食':
-        readwhere=int(personsheet.cell(i+1, 2).value)
-        if '飲食' in countall:
-          countall['飲食'][0]+=readwhere
-        else:
-          countall['飲食']=[readwhere]
-        print(countall)
-    countall['總花費']=countall['飲食'][0]+countall['交通'][0]+countall['娛樂'][0]+countall['日用品'][0]
+      if get_current_date()==now_mounth[i] :
+        if records[i]=='日用品':
+          readwhere=int(personsheet.cell(i+1, 3).value)
+          if '日用品' in countall:
+            countall['日用品'][0]+=readwhere
+          else:
+            countall['日用品']=[readwhere]
+          print(countall)
+        if records[i]=='娛樂':
+          readwhere=int(personsheet.cell(i+1, 3).value)
+          if '娛樂' in countall:
+            countall['娛樂'][0]+=readwhere
+          else:
+            countall['娛樂']=[readwhere]
+          print(countall)
+        if records[i]=='交通':
+          readwhere=int(personsheet.cell(i+1, 3).value)
+          if '交通' in countall:
+            countall['交通'][0]+=readwhere
+          else:
+            countall['交通']=[readwhere]
+          print(countall)
+        if records[i]=='飲食':
+          readwhere=int(personsheet.cell(i+1, 3).value)
+          if '飲食' in countall:
+            countall['飲食'][0]+=readwhere
+          else:
+            countall['飲食']=[readwhere]
+          print(countall)
+        if records[i]=='收入':
+          readwhere=int(personsheet.cell(i+1, 3).value)
+          if '收入' in countall:
+            countall['收入'][0]+=readwhere
+          else:
+            countall['收入']=[readwhere]
+          print(countall)
+    for category in ['飲食', '交通', '娛樂', '日用品']:
+      if category not in countall:
+        countall[category] = [0, 0]
+    countall['總花費'] = sum(countall[cat][0] for cat in ['飲食', '交通', '娛樂', '日用品'])
     countall['餘額']=totocount
     countall['日用品'].append(round(countall['日用品'][0]/countall['總花費']*100,2))
     countall['交通'].append(round(countall['交通'][0]/countall['總花費']*100,2))
@@ -122,6 +140,7 @@ def count(user_id, category, data): ##data=使用者輸入的金額 category==�
     countall['娛樂'].append(round(countall['娛樂'][0]/countall['總花費']*100,2))
 
     return countall
+
 
 # handle text message
 @line_handler.add(MessageEvent, message=TextMessage)
