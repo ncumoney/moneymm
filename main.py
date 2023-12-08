@@ -61,10 +61,33 @@ def handle_message1(event):
             TextSendMessage(text=f"結果是: {price},總花費: {total}"))#這裡會用到嗎？
       
     except ValueError:
-        
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="請輸入有效的數字"))
+        try:
+            dates = user_message.split('-')
+            start_date_input = dates[0]
+            end_date_input = dates[1]
+            print(start_date_input)
+            print(end_date_input)
+
+            category_totals = calculate_expense(user_message,user_id) #這是上面那個def的（可能是我們count會改的部分）
+            reply_message = f"{user_message}的各類别消費情况如下：\n"
+            for allcategory, data in category_totals.items():
+                if allcategory == '收入':
+                    reply_message += f"收入: {data[0]}元\n"
+                elif allcategory == '總花費':
+                    reply_message += f"總花費: {data}元\n"
+                elif allcategory == '餘額':
+                    reply_message += f"餘額: {data}元\n"
+                else:
+                    reply_message += f"{allcategory}消費: {data[0]}元，占比: {data[1]}%\n"
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=reply_message)
+            )
+        except (ValueError, IndexError):
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="請輸入有效數字。如需記帳請直接輸入數字，如需查詢紀錄請輸入年分-月份，像是 2023-10 。")
+            )
     
 
 
@@ -236,6 +259,78 @@ def catogery(event,price):
         
 
     return variable_value,price
+
+#calculate_expense(user_message,user_id)
+def calculate_expense(user_message,user_id): ##data=使用者輸入的金額 category==類別
+    scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+    creds = ServiceAccountCredentials.from_json_keyfile_name('/content/steam-boulevard-405907-f1cc6b42920f.json', scope)
+    client = gspread.authorize(creds)
+    spreadsheet_name = "ncummmoney"
+    sheet = client.open(spreadsheet_name)
+    worksheet_titles = [worksheet.title for worksheet in sheet.worksheets()]
+    worksheet_name_to_check = str(user_id)
+
+    if worksheet_name_to_check in worksheet_titles:
+        personsheet=sheet.worksheet(worksheet_name_to_check)
+    else:
+        line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="您沒有任何記帳紀錄")
+            )
+        return 0
+
+    allcount =personsheet.col_values(3)
+    totocount = sum(float(value) for value in allcount if value)
+
+    maxxx=len(personsheet.col_values(2))
+    records = personsheet.col_values(2)
+    now_mounth = personsheet.col_values(1)
+
+    countall={}
+    for i in range(maxxx):
+      if user_message==now_mounth[i] :
+        if records[i]=='日用品':
+          readwhere=int(personsheet.cell(i+1, 3).value)
+          if '日用品' in countall:
+            countall['日用品'][0]+=readwhere
+          else:
+            countall['日用品']=[readwhere]
+        if records[i]=='娛樂':
+          readwhere=int(personsheet.cell(i+1, 3).value)
+          if '娛樂' in countall:
+            countall['娛樂'][0]+=readwhere
+          else:
+            countall['娛樂']=[readwhere]
+        if records[i]=='交通':
+          readwhere=int(personsheet.cell(i+1, 3).value)
+          if '交通' in countall:
+            countall['交通'][0]+=readwhere
+          else:
+            countall['交通']=[readwhere]
+        if records[i]=='飲食':
+          readwhere=int(personsheet.cell(i+1, 3).value)
+          if '飲食' in countall:
+            countall['飲食'][0]+=readwhere
+          else:
+            countall['飲食']=[readwhere]
+        if records[i]=='收入':
+          readwhere=int(personsheet.cell(i+1, 3).value)
+          if '收入' in countall:
+            countall['收入'][0]+=readwhere
+          else:
+            countall['收入']=[readwhere]
+    for category in ['飲食', '交通', '娛樂', '日用品']:
+      if category not in countall:
+        countall[category] = [0, 0]
+    countall['總花費'] = sum(countall[cat][0] for cat in ['飲食', '交通', '娛樂', '日用品'])
+    countall['餘額']=totocount
+    countall['日用品'].append(round(countall['日用品'][0]/countall['總花費']*100,2))
+    countall['交通'].append(round(countall['交通'][0]/countall['總花費']*100,2))
+    countall['飲食'].append(round(countall['飲食'][0]/countall['總花費']*100,2))
+    countall['娛樂'].append(round(countall['娛樂'][0]/countall['總花費']*100,2))
+
+    return countall
+
 
 #主函式
 if __name__ == "__main__":
