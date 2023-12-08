@@ -61,33 +61,41 @@ def handle_message1(event):
             TextSendMessage(text=f"結果是: {price},總花費: {total}"))#這裡會用到嗎？
       
     except ValueError:
-        try:
+        if '-' in user_message:
             dates = user_message.split('-')
             start_date_input = dates[0]
             end_date_input = dates[1]
             print(start_date_input)
             print(end_date_input)
 
-            category_totals = calculate_expense(user_message,user_id) #這是上面那個def的（可能是我們count會改的部分）
-            reply_message = f"{user_message}的各類别消費情况如下：\n"
-            for allcategory, data in category_totals.items():
-                if allcategory == '收入':
-                    reply_message += f"收入: {data[0]}元\n"
-                elif allcategory == '總花費':
-                    reply_message += f"總花費: {data}元\n"
-                elif allcategory == '餘額':
-                    reply_message += f"餘額: {data}元\n"
-                else:
-                    reply_message += f"{allcategory}消費: {data[0]}元，占比: {data[1]}%\n"
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=reply_message)
-            )
-        except (ValueError, IndexError):
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="請輸入有效數字。如需記帳請直接輸入數字，如需查詢紀錄請輸入年分-月份，像是 2023-10 。")
-            )
+            try:
+               test1=int(start_date_input)
+               test2=int(end_date_input)
+               category_totals = calculate_expense(user_message,user_id) #這是上面那個def的（可能是我們count會改的部分）
+               reply_message = f"{user_message}的各類别消費情况如下：\n"
+               for allcategory, data in category_totals.items():
+                    if allcategory == '收入':
+                        reply_message += f"收入: {data[0]}元\n"
+                    elif allcategory == '總花費':
+                        reply_message += f"總花費: {data}元\n"
+                    elif allcategory == '餘額':
+                        reply_message += f"餘額: {data}元\n"
+                    else:
+                        reply_message += f"{allcategory}消費: {data[0]}元，占比: {data[1]}%\n"
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        TextSendMessage(text=reply_message)
+                    )
+            except (ValueError, IndexError):
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text="請輸入有效數字。如需記帳請直接輸入數字，如需查詢紀錄請輸入年分-月份，像是 2023-10 。")
+                )
+        else:
+           line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text="請輸入有效數字。如需記帳請直接輸入數字，如需查詢紀錄請輸入年分-月份，像是 2023-10 。")
+                )
     
 
 
@@ -198,7 +206,6 @@ def handle_message2(event):
                         
                     ])))
     except ValueError:
-        
         price=user_status[user_id]
         category,price=catogery(event,price)
         print("price,category")
