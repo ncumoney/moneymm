@@ -71,7 +71,7 @@ def handle_message1(event):
 def count(user_id, category, data): ##data=使用者輸入的金額 category==類別
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
     creds = ServiceAccountCredentials.from_json_keyfile_name('steam-boulevard-405907-f1cc6b42920f.json', scope)
-    cclient = gspread.authorize(creds)
+    client = gspread.authorize(creds)
     spreadsheet_name = "ncummmoney"
     sheet = client.open(spreadsheet_name)
     current_date = get_current_date() 
