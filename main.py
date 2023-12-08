@@ -189,7 +189,7 @@ def handle_message2(event):
             elif allcategory == '餘額':
                 reply_message += f"餘額: {data}元\n"
             else:
-                reply_message += f"{allcategory}消费: {data[0]}元，占比: {data[1]}%\n"
+                reply_message += f"{allcategory}消費: {data[0]}元，占比: {data[1]}%\n"
         print(reply_message)
         print(category)
         if category_totals['餘額']<=1000:
