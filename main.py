@@ -67,7 +67,7 @@ def handle_message1(event):
             TextSendMessage(text="請輸入要查詢的紀錄 (YYYY-MM): ")
         )
         elif '-' in user_message.content():
-            category_totals = calculate_expense(user_message,user_id) #這是上面那個def的（可能是我們count會改的部分）
+            category_totals = calculate_expense(user_message,user_id,event) #這是上面那個def的（可能是我們count會改的部分）
             reply_message = f"{user_message}的各類别消費情况如下：\n"
             for allcategory, data in category_totals.items():
                 if allcategory == '收入':
@@ -259,7 +259,7 @@ def catogery(event,price):
     return variable_value,price
 
 #calculate_expense(user_message,user_id)
-def calculate_expense(user_message,user_id): ##data=使用者輸入的金額 category==類別
+def calculate_expense(user_message,user_id,event): ##data=使用者輸入的金額 category==類別
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
     creds = ServiceAccountCredentials.from_json_keyfile_name('/content/steam-boulevard-405907-f1cc6b42920f.json', scope)
     client = gspread.authorize(creds)
