@@ -52,6 +52,7 @@ data=0
 def handle_message1(event):
     user_message = event.message.text
     user_id = event.source.user_id
+    print(user_message)
     if user_message == '查詢消費紀錄':#
            print("查詢消費紀錄yes")
            line_bot_api.reply_message(
