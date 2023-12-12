@@ -8,6 +8,7 @@ import logging
 import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import re
 
 
 line_bot_api = LineBotApi("IjD9cOGGINHUXelSEl+HdVAc9oEDw3/kk+XMkfWyGZCdFyURygI18eD4rKfcpaKxajwsLmA0iCwnedwrM/qPSCy5BcBNNw+z8xIx/k4ytwxrAABJspIvWUUTWEYZOnYGRUUtw1B9Ez2tyL9qhqWhcwdB04t89/1O/w1cDnyilFU=")
@@ -51,15 +52,38 @@ data=0
 def handle_message1(event):
     user_message = event.message.text
     user_id = event.source.user_id
+
+    # 檢查是否是數字（記帳）
     try:
-        price = int(event.message.text) #ok    
-        print("111111111")   
-        handle_message2(event.message.text) #跳quick
-        category=catogery(event,price)
-        total = count(user_id,category,price)
+        price = int(user_message)      
+        handle_message2(user_message)  # 跳至快速選單
+        category, _ = catogery(event, price)
+        total = count(user_id, category, price)
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=f"結果是: {price},總花費: {total}"))#這裡會用到嗎？
+            TextSendMessage(text=f"已記錄: {price}, 總花費: {total}"))
+      
+    except ValueError:
+        # 檢查是否是日期格式（查詢消費紀錄）
+        if re.match(r"\d{4}-\d{2}", user_message):
+            category_totals = calculate_expense(user_message, user_id, event)
+            reply_message = f"{user_message} 的消費情況如下：\n"
+            for category, data in category_totals.items():
+                if category == '收入':
+                    reply_message += f"收入: {data[0]}元\n"
+                elif category == '總花費':
+                    reply_message += f"總花費: {data}元\n"
+                elif category == '餘額':
+                    reply_message += f"餘額: {data}元\n"
+                else:
+                    reply_message += f"{category}消費: {data[0]}元，占比: {data[1]}%\n"
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=reply_message))
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="請輸入有效數字或日期 (YYYY-MM) 進行查詢。"))
       
     except ValueError:
         if user_message == '查詢消費紀錄':#現在出入不出消費紀錄
