@@ -64,8 +64,8 @@ def handle_message1(event):
         if user_message == '查詢消費紀錄':#
            print("查詢消費紀錄yes")
            line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="請輸入要查詢的紀錄 (YYYY-MM): ")
+              event.reply_token,
+              TextSendMessage(text="請輸入要查詢的紀錄 (YYYY-MM): ")
         )
         elif '-' in user_message.content():
             category_totals = calculate_expense(user_message,user_id,event) #這是上面那個def的（可能是我們count會改的部分）
