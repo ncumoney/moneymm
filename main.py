@@ -52,7 +52,8 @@ def handle_message1(event):
     user_message = event.message.text
     user_id = event.source.user_id
     try:
-        price = int(event.message.text) #ok       
+        price = int(event.message.text) #ok    
+        print("111111111")   
         handle_message2(event.message.text) #跳quick
         category=catogery(event,price)
         total = count(user_id,category,price)
@@ -63,11 +64,13 @@ def handle_message1(event):
     except ValueError:
         if user_message == '查詢消費紀錄':#現在出入不出消費紀錄
           print("查詢消費紀錄yes")
+          print("222222")   
           line_bot_api.reply_message(
               event.reply_token,
               TextSendMessage(text="請輸入要查詢的紀錄 (YYYY-MM): "))
            
         elif '-' in user_message.content():
+            print("333333")   
             category_totals = calculate_expense(user_message,user_id,event) #這是上面那個def的（可能是我們count會改的部分）
             reply_message = f"{user_message}的各類别消費情况如下：\n"
             for allcategory, data in category_totals.items():
