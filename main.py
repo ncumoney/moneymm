@@ -50,6 +50,7 @@ def get_current_date():
 data=0
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message1(event):
+    print("############")
     user_message = event.message.text
     user_id = event.source.user_id
     print(user_message)
