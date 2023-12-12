@@ -172,7 +172,8 @@ def handle_message2(event):
     msg = event.message.text
     user_id = event.source.user_id
     try:
-        money = int(event.message.text) #ok
+        money = int(event.message.text) #ok 有錯誤說不是轉成int型別
+        print("money succeed !!!!!")
         user_status[user_id]=money
         line_bot_api.reply_message(
             event.reply_token,
