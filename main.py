@@ -80,19 +80,6 @@ def handle_message1(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=reply_message))
-        else:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="請輸入有效數字或日期 (YYYY-MM) 進行查詢。"))
-      
-    except ValueError:
-        if user_message == '查詢消費紀錄':#現在出入不出消費紀錄
-          print("查詢消費紀錄yes")
-          print("222222")   
-          line_bot_api.reply_message(
-              event.reply_token,
-              TextSendMessage(text="請輸入要查詢的紀錄 (YYYY-MM): "))
-           
         elif '-' in user_message.content():
             print("333333")   
             category_totals = calculate_expense(user_message,user_id,event) #這是上面那個def的（可能是我們count會改的部分）
@@ -111,10 +98,14 @@ def handle_message1(event):
                     TextSendMessage(text=reply_message)
                 )
         else:
-           line_bot_api.reply_message(
-                    event.reply_token,
-                    TextSendMessage(text="請輸入有效數字。如需記帳請直接輸入數字，如需查詢紀錄請輸入'查詢消費紀錄'。")
-                )
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="請輸入有效數字或日期 (YYYY-MM) 進行查詢。"))
+      
+    
+           
+        
+       
     
 
 
