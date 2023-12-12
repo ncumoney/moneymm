@@ -61,8 +61,9 @@ def handle_message1(event):
             TextSendMessage(text=f"結果是: {price},總花費: {total}"))#這裡會用到嗎？
       
     except ValueError:
-        if user_message == '查詢消費紀錄':
-            line_bot_api.reply_message(
+        if user_message == '查詢消費紀錄':#
+           print("查詢消費紀錄yes")
+           line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="請輸入要查詢的紀錄 (YYYY-MM): ")
         )
