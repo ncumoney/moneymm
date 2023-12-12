@@ -52,56 +52,45 @@ data=0
 def handle_message1(event):
     user_message = event.message.text
     user_id = event.source.user_id
-
+    if user_message == '查詢消費紀錄':#
+           print("查詢消費紀錄yes")
+           line_bot_api.reply_message(
+              event.reply_token,
+              TextSendMessage(text="請輸入要查詢的紀錄 (YYYY-MM): "))
     # 檢查是否是數字（記帳）
-    try:
-        price = int(user_message)      
-        handle_message2(user_message)  # 跳至快速選單
-        category, _ = catogery(event, price)
-        total = count(user_id, category, price)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=f"已記錄: {price}, 總花費: {total}"))
-      
-    except ValueError:
-        # 檢查是否是日期格式（查詢消費紀錄）
-        if re.match(r"\d{4}-\d{2}", user_message):
-            category_totals = calculate_expense(user_message, user_id, event)
-            reply_message = f"{user_message} 的消費情況如下：\n"
-            for category, data in category_totals.items():
-                if category == '收入':
-                    reply_message += f"收入: {data[0]}元\n"
-                elif category == '總花費':
-                    reply_message += f"總花費: {data}元\n"
-                elif category == '餘額':
-                    reply_message += f"餘額: {data}元\n"
-                else:
-                    reply_message += f"{category}消費: {data[0]}元，占比: {data[1]}%\n"
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=reply_message))
-        elif '-' in user_message.content():
-            print("333333")   
-            category_totals = calculate_expense(user_message,user_id,event) #這是上面那個def的（可能是我們count會改的部分）
-            reply_message = f"{user_message}的各類别消費情况如下：\n"
-            for allcategory, data in category_totals.items():
-                if allcategory == '收入':
-                    reply_message += f"收入: {data[0]}元\n"
-                elif allcategory == '總花費':
-                    reply_message += f"總花費: {data}元\n"
-                elif allcategory == '餘額':
-                    reply_message += f"餘額: {data}元\n"
-                else:
-                    reply_message += f"{allcategory}消費: {data[0]}元，占比: {data[1]}%\n"
-                line_bot_api.reply_message(
-                    event.reply_token,
-                    TextSendMessage(text=reply_message)
-                )
-        else:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="請輸入有效數字或日期 (YYYY-MM) 進行查詢。"))
-      
+    else:
+      try:
+          price = int(user_message)      
+          handle_message2(user_message)  # 跳至快速選單
+          category, _ = catogery(event, price)
+          total = count(user_id, category, price)
+          line_bot_api.reply_message(
+              event.reply_token,
+              TextSendMessage(text=f"已記錄: {price}, 總花費: {total}"))
+        
+      except ValueError:
+          # 檢查是否是日期格式（查詢消費紀錄）
+          if re.match(r"\d{4}-\d{2}", user_message): #done by ai
+              category_totals = calculate_expense(user_message, user_id, event)
+              reply_message = f"{user_message} 的消費情況如下：\n"
+              for category, data in category_totals.items():
+                  if category == '收入':
+                      reply_message += f"收入: {data[0]}元\n"
+                  elif category == '總花費':
+                      reply_message += f"總花費: {data}元\n"
+                  elif category == '餘額':
+                      reply_message += f"餘額: {data}元\n"
+                  else:
+                      reply_message += f"{category}消費: {data[0]}元，占比: {data[1]}%\n"
+              line_bot_api.reply_message(
+                  event.reply_token,
+                  TextSendMessage(text=reply_message))
+          
+          else:
+              line_bot_api.reply_message(
+                  event.reply_token,
+                  TextSendMessage(text="請輸入有效數字或日期 (YYYY-MM) 進行查詢。"))
+          
     
            
         
